@@ -5,6 +5,8 @@
     "author": "Arkadiusz Sapek",
     "license": "MIT",
     "dependencies": {
+        "@emotion/react": "^11.4.0",
+        "@emotion/styled": "^11.3.0",
         "@hookform/resolvers": "^2.4.0",
         "@testing-library/jest-dom": "^5.11.4",
         "@testing-library/react": "^11.1.0",
@@ -32,7 +34,7 @@
         "@typescript-eslint/parser": "^4.28.4",
         "eslint": "^7.31.0",
         "eslint-config-airbnb-base": "^14.2.1",
-        "eslint-config-prettier": "^8.4.0",
+        "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-import": "^2.23.4",
         "eslint-plugin-jest": "^24.4.0",
         "eslint-plugin-jsx-a11y": "^6.4.1",
