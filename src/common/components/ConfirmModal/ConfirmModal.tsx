@@ -3,15 +3,15 @@ import Modal from 'react-modal';
 
 import * as S from './confirmModalStyles';
 
-interface Props {
+export interface ConfirmModalProps {
     isOpen: boolean;
     setIsOpen: (modalState: boolean) => void;
-    handleAction: () => void;
-    headerText: string;
-    text: string;
+    handleAction?: () => void;
+    headerText?: string;
+    text?: string;
 }
 
-export const ConfirmModal: React.FC<Props> = ({
+export const ConfirmModal: React.FC<ConfirmModalProps> = ({
     isOpen,
     headerText,
     text,
@@ -21,7 +21,7 @@ export const ConfirmModal: React.FC<Props> = ({
     const closeModal = () => setIsOpen(false);
 
     const confirmHandler = () => {
-        handleAction();
+        handleAction?.();
         closeModal();
     };
 

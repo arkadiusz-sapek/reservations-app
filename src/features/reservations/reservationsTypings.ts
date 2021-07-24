@@ -30,3 +30,9 @@ export interface Reservation {
     companyId: number;
     timeSlot: TimeSlot;
 }
+
+export enum SlotState {
+    Free = 'FREE',
+    Disabled = 'DISABLED',
+    Reserved = 'RESERVED',
+}

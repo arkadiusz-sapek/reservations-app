@@ -7,8 +7,7 @@ export interface ReservationState {
 }
 
 type Action =
-    | { type: 'SET_RESERVATION_FOR_FREE_SLOT'; payload: { reservation: Reservation } }
-    | { type: 'SET_RESERVATION_FOR_OCCUPIED_SLOT'; payload: { reservation: Reservation } }
+    | { type: 'SET_RESERVATION'; payload: { reservation: Reservation } }
     | { type: 'REMOVE_RESERVATION'; payload: { companyId: number } };
 
 interface ContextState {
@@ -21,7 +20,7 @@ const defaultInitialState: ReservationState = {
 };
 
 const setReservationForFreeSlot = (reservation: Reservation): Action => ({
-    type: 'SET_RESERVATION_FOR_FREE_SLOT',
+    type: 'SET_RESERVATION',
     payload: { reservation },
 });
 
@@ -32,7 +31,7 @@ const removeReservation = (companyId: number): Action => ({
 
 function managerWorkplacesReducer(state: ReservationState, action: Action): ReservationState {
     switch (action.type) {
-        case 'SET_RESERVATION_FOR_FREE_SLOT':
+        case 'SET_RESERVATION':
             return { ...state, reservations: [...state.reservations, action.payload.reservation] };
         case 'REMOVE_RESERVATION':
             return {

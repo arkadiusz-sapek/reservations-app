@@ -11,6 +11,9 @@ export const palette = {
         dark: '#ba000d',
         contrastText: '#ffffff',
     },
+    disabled: {
+        main: '#e0e0e0',
+    },
     text: {
         primary: '#171717',
     },
