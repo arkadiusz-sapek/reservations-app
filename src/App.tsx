@@ -3,16 +3,16 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 
 import { routes } from 'settings/routes';
 import { RootErrorBoundary } from 'core/components/RootErrorBoundary';
-import { globalStyles } from 'core/globalStyles';
 import { ReservationsPage } from 'features/reservations/ReservationsPage';
-import { Global } from '@emotion/react';
+import { ReservationsContextProvider } from 'features/reservations/reservationsContext';
 
 export const App = () => (
     <RootErrorBoundary>
-        <Global styles={globalStyles} />
         <Router>
             <Switch>
-                <Route path={routes.reservations} component={ReservationsPage} />
+                <ReservationsContextProvider>
+                    <Route path={routes.reservations} component={ReservationsPage} />
+                </ReservationsContextProvider>
                 <Redirect exact from="*" to={routes.reservations} />
             </Switch>
         </Router>

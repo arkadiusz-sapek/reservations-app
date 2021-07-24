@@ -5,11 +5,18 @@ import * as S from './dateSlotsStyles';
 
 interface Props {
     timeSlot: TimeSlot;
+    handleClick: () => void;
 }
 
-export const TimeSlotCard = ({ timeSlot }: Props) => (
-    <S.TimeSlotWrapper>
-        <div>{format(new Date(timeSlot.startDate), 'hh:mm')}</div>
-        <div>{format(new Date(timeSlot.endDate), 'hh:mm')}</div>
+export const TimeSlotCard = ({ timeSlot, handleClick }: Props) => (
+    <S.TimeSlotWrapper onClick={handleClick}>
+        <div>
+            <S.TimeDesignationLabel>From:</S.TimeDesignationLabel>
+            {format(new Date(timeSlot.startDate), 'hh:mm')}
+        </div>
+        <div>
+            <S.TimeDesignationLabel>To:</S.TimeDesignationLabel>
+            {format(new Date(timeSlot.endDate), 'hh:mm')}
+        </div>
     </S.TimeSlotWrapper>
 );

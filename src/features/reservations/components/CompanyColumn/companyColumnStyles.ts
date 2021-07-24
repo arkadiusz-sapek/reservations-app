@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { fontSize, fontWeight, palette } from 'settings/variables';
 
 export const CompanyHeader = styled.h1`
@@ -22,16 +23,31 @@ export const ColumnWrapper = styled.div`
 `;
 
 export const ColumnContentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 10rem;
     padding: 0 1rem;
+    margin-bottom: 2rem;
 `;
 
-export const TimeSlotsWrapper = styled.div`
+export const TimeSlotGroupsWrapper = styled.div`
     padding: 0 1rem;
     overflow: scroll;
 `;
 
-export const TimeSlotGroup = styled.div`
+export const TimeSlotGroupWrapper = styled.div`
     padding: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 23rem;
+`;
+
+export const TimeSlotsWrapper = styled.div`
+    padding: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 23rem;
 `;
 
 export const TimeSlotGroupHeader = styled.h2`

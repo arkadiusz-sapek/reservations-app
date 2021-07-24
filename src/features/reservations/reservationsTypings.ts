@@ -25,3 +25,8 @@ export interface Company {
 export interface TimeSlotsGroups {
     [key: string]: TimeSlot[];
 }
+
+export interface Reservation {
+    companyId: number;
+    timeSlot: TimeSlot;
+}
