@@ -1,14 +1,17 @@
+import { SelectsValues } from 'common/commonTypings';
 import React, { createContext, useReducer } from 'react';
 
 import { Reservation } from './reservationsTypings';
 
 export interface ReservationState {
     reservations: Reservation[];
+    selectedCompanies: SelectsValues;
 }
 
 type Action =
     | { type: 'SET_RESERVATION'; payload: { reservation: Reservation } }
-    | { type: 'REMOVE_RESERVATION'; payload: { companyId: number } };
+    | { type: 'REMOVE_RESERVATION'; payload: { companyId: number } }
+    | { type: 'SET_SELECTED_COMPANIES'; payload: { selectedCompanies: SelectsValues } };
 
 interface ContextState {
     state: ReservationState;
@@ -17,6 +20,7 @@ interface ContextState {
 
 const defaultInitialState: ReservationState = {
     reservations: [],
+    selectedCompanies: [],
 };
 
 const setReservationForFreeSlot = (reservation: Reservation): Action => ({
@@ -27,6 +31,11 @@ const setReservationForFreeSlot = (reservation: Reservation): Action => ({
 const removeReservation = (companyId: number): Action => ({
     type: 'REMOVE_RESERVATION',
     payload: { companyId },
+});
+
+const setSelectedCompanies = (selectedCompanies: SelectsValues): Action => ({
+    type: 'SET_SELECTED_COMPANIES',
+    payload: { selectedCompanies },
 });
 
 function managerWorkplacesReducer(state: ReservationState, action: Action): ReservationState {
@@ -40,6 +49,8 @@ function managerWorkplacesReducer(state: ReservationState, action: Action): Rese
                     reservation => action.payload.companyId !== reservation.companyId,
                 ),
             };
+        case 'SET_SELECTED_COMPANIES':
+            return { ...state, selectedCompanies: action.payload.selectedCompanies };
 
         default:
             return state;
@@ -73,4 +84,5 @@ export {
     ReservationsContext,
     setReservationForFreeSlot,
     removeReservation,
+    setSelectedCompanies,
 };

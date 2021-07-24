@@ -21,9 +21,14 @@ interface TimeSlotWrapperProps {
 }
 
 export const TimeSlotWrapper = styled.div<TimeSlotWrapperProps>`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     padding: 0.5rem;
     margin: 0.25rem;
-    width: 6rem;
+    width: 6.5rem;
+    height: 2rem;
     box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
         0px 1px 3px 0px rgb(0 0 0 / 12%);
     background-color: ${({ backgroundColor }) => backgroundColor};

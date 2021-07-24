@@ -18,7 +18,7 @@ export const palette = {
         primary: '#171717',
     },
     background: {
-        primary: '#e0e0e0',
+        primary: '#ffffff',
     },
 };
 
@@ -40,4 +40,21 @@ export const fontWeight = {
 
 export const fontFamily = {
     primary: 'Raleway',
+};
+
+export const breakpointsValues = {
+    xs: 480,
+    sm: 576,
+    md: 675,
+    lg: 920,
+    xl: 1075,
+};
+
+const mediaQ = (size: number): string => `@media only screen and (min-width: ${size}px)`;
+
+export const breakpoints = {
+    sm: mediaQ(breakpointsValues.sm),
+    md: mediaQ(breakpointsValues.md),
+    lg: mediaQ(breakpointsValues.lg),
+    xl: mediaQ(breakpointsValues.xl),
 };

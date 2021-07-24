@@ -16,7 +16,6 @@ import {
     TimeSlot,
 } from 'features/reservations/reservationsTypings';
 import { getSlotState } from 'features/reservations/reservationsHelpers';
-
 import { TimeSlotCard } from '../TimeSlotCard';
 import * as S from './companyColumnStyles';
 
@@ -30,6 +29,7 @@ type ModalProps = Omit<ConfirmModalProps, 'isOpen' | 'setIsOpen'>;
 export const CompanyColumn = ({ company }: Props) => {
     const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
     const [confirmModalProps, setConfirmModalProps] = React.useState<ModalProps>();
+
     const {
         dispatch,
         state: { reservations },

@@ -1,6 +1,6 @@
 import { areIntervalsOverlapping } from 'date-fns';
 
-import { Reservation, SlotState, TimeSlot } from './reservationsTypings';
+import { Company, Reservation, SlotState, TimeSlot } from './reservationsTypings';
 
 export const checkIfDatesAreOverlapping = (firstTimeSlot: TimeSlot, secondTimeSlot: TimeSlot) =>
     areIntervalsOverlapping(
@@ -37,3 +37,8 @@ export const getSlotState = (
 
     return SlotState.Free;
 };
+
+export const transformCompanyToOption = (company: Company) => ({
+    value: company.id,
+    label: company.name,
+});
