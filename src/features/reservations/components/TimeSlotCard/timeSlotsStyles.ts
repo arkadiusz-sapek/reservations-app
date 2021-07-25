@@ -34,7 +34,7 @@ export const TimeSlotWrapper = styled.div<TimeSlotWrapperProps>`
     color: ${({ textColor }) => textColor};
     cursor: ${({ cursor }) => cursor};
 
-    ${({ theme }) => theme.breakpoints.xl} {
+    ${({ theme }) => theme.breakpoints.md} {
         padding: 0.5rem;
         margin: 0.25rem;
         width: 6.5rem;

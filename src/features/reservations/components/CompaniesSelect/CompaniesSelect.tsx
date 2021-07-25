@@ -31,7 +31,7 @@ export const CompaniesSelect = ({ companies }: Props) => {
 
     useEffect(() => {
         detectAndHandleMobile();
-    }, [width]);
+    }, [width, selectedCompanies]);
 
     const options = companies.map(transformCompanyToOption);
 

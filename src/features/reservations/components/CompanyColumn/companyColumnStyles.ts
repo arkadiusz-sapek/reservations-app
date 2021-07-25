@@ -15,10 +15,13 @@ export const HeaderWrapper = styled.div`
 export const ColumnWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    box-shadow: ${({ theme }) => theme.palette.boxShadows.card};
     width: 100%;
-    max-height: 50rem;
     margin: 0 0.25rem;
+    box-shadow: ${({ theme }) => theme.palette.boxShadows.card};
+
+    ${({ theme }) => theme.breakpoints.xl} {
+        max-height: 50rem;
+    }
 `;
 
 export const ColumnContentWrapper = styled.div`
