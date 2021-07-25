@@ -1,46 +1,86 @@
-# Getting Started with Create React App
+# weather-app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an application for making reservations
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+-   fetch any number of companies with reservations slots
+-   allow on one reservation for each company
+-   reservation from one company block time slot for other companies
+-   allow for reservations revoke
 
-### `yarn start`
+## Development
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Company reservations data are fetched using json-server.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+During development each commit is checked for linting and each push is checked for tests.
 
-### `yarn test`
+You should first clone repo with command:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+git clone git@github.com:arkadiusz-sapek/reservations-app.git
+```
 
-### `yarn build`
+After that you should create `.env` file in root folder. For development you can copy content of `.env.template`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Then you need to install dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+yarn
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Run mocked development server:
 
-### `yarn eject`
+```
+yarn server
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+And finally run frontend:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+yarn start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Frontend scripts list
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To install packages you need to run:
 
-## Learn More
+```
+yarn
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To run tests you need to run:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+yarn test
+```
+
+Run e2e tests with Cypress Test Runner:
+
+```
+yarn test:cypress
+```
+
+Run e2e tests headlessly in console:
+
+```
+yarn test:e2e
+```
+
+To run mocked development server you need to run:
+
+```
+yarn server
+```
+
+You can run types check and eslint with:
+
+```
+yarn lint
+```
+
+Build production app:
+
+```
+yarn build
+```
