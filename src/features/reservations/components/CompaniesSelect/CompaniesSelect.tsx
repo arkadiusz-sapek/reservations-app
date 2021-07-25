@@ -20,21 +20,27 @@ export const CompaniesSelect = ({ companies }: Props) => {
     } = useContext(ReservationsContext);
     const { width } = useViewport();
 
-    useEffect(() => {
+    const detectAndHandleMobile = () => {
         setIsMobile(width < breakpointsValues.lg);
         if (isMobile && selectedCompanies?.length > 1) {
-            dispatch(setSelectedCompanies([selectedCompanies?.reverse()[0]]));
+            const lastSelectedCompany = selectedCompanies?.reverse()[0];
+
+            dispatch(setSelectedCompanies([lastSelectedCompany]));
         }
+    };
+
+    useEffect(() => {
+        detectAndHandleMobile();
     }, [width]);
 
     const options = companies.map(transformCompanyToOption);
 
     const handleTagSelect = (selectedOptions: SelectValues) => {
-        dispatch(
-            setSelectedCompanies(
-                Array.isArray(selectedOptions) ? selectedOptions : [selectedOptions],
-            ),
-        );
+        const newSelectedCompanies = Array.isArray(selectedOptions)
+            ? selectedOptions
+            : [selectedOptions];
+
+        dispatch(setSelectedCompanies(newSelectedCompanies));
     };
 
     return (
@@ -42,8 +48,8 @@ export const CompaniesSelect = ({ companies }: Props) => {
             isMulti={!isMobile}
             label="Companies"
             value={selectedCompanies}
-            tags={options}
-            handleTagSelect={handleTagSelect}
+            options={options}
+            handleOptionsSelect={handleTagSelect}
         />
     );
 };

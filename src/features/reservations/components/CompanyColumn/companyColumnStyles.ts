@@ -55,3 +55,11 @@ export const TimeSlotGroupHeader = styled.h2`
     color: ${({ theme }) => theme.palette.primary.dark};
     margin: 0;
 `;
+
+export const TimeSlotButton = styled.button`
+    padding: 0;
+    background: transparent;
+    margin: 0;
+    border: 0;
+    font-family: ${({ theme }) => theme.fontFamily.primary};
+`;

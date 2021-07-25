@@ -1,6 +1,6 @@
-import { SelectOption } from 'common/commonTypings';
 import React, { createContext, useReducer } from 'react';
 
+import { SelectOption } from 'common/commonTypings';
 import { Reservation } from './reservationsTypings';
 
 export interface ReservationsState {

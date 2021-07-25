@@ -68,6 +68,7 @@ export const theme = {
     fontSize,
     fontWeight,
     breakpoints,
+    fontFamily,
 };
 
 export type ThemeTyping = typeof theme;

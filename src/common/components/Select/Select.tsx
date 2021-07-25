@@ -7,16 +7,16 @@ import { selectStyles } from './selectStyles';
 
 interface Props {
     label: string;
-    tags: SelectOption[];
+    options: SelectOption[];
     value: SelectValues | null;
-    handleTagSelect: (selectedOptions: SelectValues) => void;
+    handleOptionsSelect: (selectedOptions: SelectValues) => void;
     isMulti?: boolean;
     noOptionMessage?: () => string;
 }
 
 export const Select = ({
     value,
-    handleTagSelect,
+    handleOptionsSelect,
     noOptionMessage,
     isMulti = false,
     ...props
@@ -28,10 +28,10 @@ export const Select = ({
         <ReactSelect
             isMulti={isMulti}
             value={value}
-            onChange={handleTagSelect}
+            onChange={handleOptionsSelect}
             closeMenuOnSelect={!isMulti}
             styles={selectStyles}
-            options={props.tags}
+            options={props.options}
             noOptionsMessage={noOptionMessage}
         />
     </S.FormFieldWrapper>

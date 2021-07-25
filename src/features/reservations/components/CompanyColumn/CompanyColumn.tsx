@@ -42,7 +42,13 @@ export const CompanyColumn = ({ company }: Props) => {
         dispatch(setReservationForFreeSlot({ timeSlot, companyId: company.id }));
     };
 
-    const handleSlotClick = (timeSlot: TimeSlot, slotState: SlotState) => {
+    const handleSlotClick = (timeSlot: TimeSlot) => {
+        const slotState = getSlotState(timeSlot, reservations, company.id);
+
+        if (slotState !== SlotState.Free) {
+            return;
+        }
+
         if (companyReservation) {
             setConfirmModalProps({
                 handleAction: () => handleReservationChange(timeSlot),
@@ -111,20 +117,17 @@ export const CompanyColumn = ({ company }: Props) => {
                             )
                         </S.TimeSlotGroupHeader>
                         <S.TimeSlotGroupWrapper>
-                            {timeSlots.map(timeSlot => {
-                                const slotState = getSlotState(timeSlot, reservations, company.id);
-                                return (
+                            {timeSlots.map(timeSlot => (
+                                <S.TimeSlotButton
+                                    key={timeSlot.startDate}
+                                    onClick={() => handleSlotClick(timeSlot)}
+                                >
                                     <TimeSlotCard
-                                        key={timeSlot.startDate}
                                         timeSlot={timeSlot}
-                                        handleClick={() =>
-                                            slotState === SlotState.Free &&
-                                            handleSlotClick(timeSlot, slotState)
-                                        }
-                                        slotState={slotState}
+                                        slotState={getSlotState(timeSlot, reservations, company.id)}
                                     />
-                                );
-                            })}
+                                </S.TimeSlotButton>
+                            ))}
                         </S.TimeSlotGroupWrapper>
                     </S.TimeSlotGroupWrapper>
                 ))}

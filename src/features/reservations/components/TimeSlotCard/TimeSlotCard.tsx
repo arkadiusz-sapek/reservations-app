@@ -7,15 +7,13 @@ import { getColors } from './timeSlotsStyles';
 
 interface Props {
     timeSlot: TimeSlot;
-    handleClick: () => void;
     slotState: SlotState;
 }
 
-export const TimeSlotCard = ({ timeSlot, handleClick, slotState }: Props) => {
+const TimeSlotCardComponent = ({ timeSlot, slotState }: Props) => {
     const slotColors = getColors(slotState);
     return (
         <S.TimeSlotWrapper
-            onClick={handleClick}
             backgroundColor={slotColors.background}
             textColor={slotColors.text}
             cursor={slotState === SlotState.Free ? 'pointer' : 'default'}
@@ -26,3 +24,5 @@ export const TimeSlotCard = ({ timeSlot, handleClick, slotState }: Props) => {
         </S.TimeSlotWrapper>
     );
 };
+
+export const TimeSlotCard = React.memo(TimeSlotCardComponent);
