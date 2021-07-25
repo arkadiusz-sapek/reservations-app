@@ -1,24 +1,21 @@
 import styled from '@emotion/styled';
 
-import { fontSize, fontWeight, palette } from 'settings/variables';
-
 export const CompanyHeader = styled.h1`
-    font-weight: ${fontWeight.regular};
-    font-size: ${fontSize.big};
-    color: ${palette.primary.contrastText};
+    font-weight: ${({ theme }) => theme.fontWeight.regular};
+    font-size: ${({ theme }) => theme.fontSize.big};
+    color: ${({ theme }) => theme.palette.primary.contrastText};
     text-align: center;
 `;
 
 export const HeaderWrapper = styled.div`
-    background-color: ${palette.primary.main};
+    background-color: ${({ theme }) => theme.palette.primary.main};
     margin-bottom: 1rem;
 `;
 
 export const ColumnWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
-        0px 1px 3px 0px rgb(0 0 0 / 12%);
+    box-shadow: ${({ theme }) => theme.palette.boxShadows.card};
     width: 100%;
     max-height: 50rem;
     margin: 0 0.25rem;
@@ -53,8 +50,8 @@ export const TimeSlotsWrapper = styled.div`
 
 export const TimeSlotGroupHeader = styled.h2`
     width: 100%;
-    font-size: ${fontSize.medium};
-    font-weight: ${fontWeight.demiBold};
-    color: ${palette.primary.dark};
+    font-size: ${({ theme }) => theme.fontSize.medium};
+    font-weight: ${({ theme }) => theme.fontWeight.demiBold};
+    color: ${({ theme }) => theme.palette.primary.dark};
     margin: 0;
 `;

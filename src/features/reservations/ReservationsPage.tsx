@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { MultiSelectOptionType } from 'common/commonTypings';
 import { CompanyColumn } from './components/CompanyColumn';
 import { useReservationServices } from './reservationsServices';
 import { Company } from './reservationsTypings';
@@ -29,7 +28,7 @@ export const ReservationsPage = () => {
     }, []);
 
     const companiesToShow = companies.filter(company =>
-        selectedCompanies?.some(({ value }: MultiSelectOptionType) => value === company.id),
+        selectedCompanies?.some(({ value }) => value === company.id),
     );
 
     return (

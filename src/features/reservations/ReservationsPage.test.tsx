@@ -2,7 +2,9 @@ import React from 'react';
 import { act, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Modal from 'react-modal';
+import { ThemeProvider } from '@emotion/react';
 
+import { theme } from 'settings/variables';
 import { apiEndpoints } from 'settings/api';
 import { mockApi, mockedApiClient } from 'common/mocks/httpClientMock';
 import { ReservationsPage } from './ReservationsPage';
@@ -35,7 +37,9 @@ const renderContent = (contextValues?: ReservationsState) => {
 
     return (
         <ReservationsContextProvider values={contextValues}>
-            <ReservationsPage />
+            <ThemeProvider theme={theme}>
+                <ReservationsPage />
+            </ThemeProvider>
         </ReservationsContextProvider>
     );
 };

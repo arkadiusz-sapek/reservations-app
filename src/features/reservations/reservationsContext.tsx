@@ -1,17 +1,17 @@
-import { SelectsValues } from 'common/commonTypings';
+import { SelectOption } from 'common/commonTypings';
 import React, { createContext, useReducer } from 'react';
 
 import { Reservation } from './reservationsTypings';
 
 export interface ReservationsState {
     reservations: Reservation[];
-    selectedCompanies: SelectsValues;
+    selectedCompanies: SelectOption[];
 }
 
 type Action =
     | { type: 'SET_RESERVATION'; payload: { reservation: Reservation } }
     | { type: 'REMOVE_RESERVATION'; payload: { companyId: number } }
-    | { type: 'SET_SELECTED_COMPANIES'; payload: { selectedCompanies: SelectsValues } };
+    | { type: 'SET_SELECTED_COMPANIES'; payload: { selectedCompanies: SelectOption[] } };
 
 interface ContextState {
     state: ReservationsState;
@@ -33,7 +33,7 @@ const removeReservation = (companyId: number): Action => ({
     payload: { companyId },
 });
 
-const setSelectedCompanies = (selectedCompanies: SelectsValues): Action => ({
+const setSelectedCompanies = (selectedCompanies: SelectOption[]): Action => ({
     type: 'SET_SELECTED_COMPANIES',
     payload: { selectedCompanies },
 });

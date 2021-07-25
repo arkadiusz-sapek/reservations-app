@@ -20,6 +20,10 @@ export const palette = {
     background: {
         primary: '#ffffff',
     },
+    boxShadows: {
+        card: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),0px 1px 3px 0px rgb(0 0 0 / 12%)',
+        modal: '0px 0px 17px 1px rgba(0,0,0,0.32)',
+    },
 };
 
 export const fontSize = {
@@ -58,3 +62,12 @@ export const breakpoints = {
     lg: mediaQ(breakpointsValues.lg),
     xl: mediaQ(breakpointsValues.xl),
 };
+
+export const theme = {
+    palette,
+    fontSize,
+    fontWeight,
+    breakpoints,
+};
+
+export type ThemeTyping = typeof theme;

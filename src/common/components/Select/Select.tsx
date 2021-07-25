@@ -1,56 +1,38 @@
-import React, { FC } from 'react';
-import styled from '@emotion/styled';
+import React from 'react';
 import ReactSelect from 'react-select';
 
-import { fontSize } from 'settings/variables';
-import { SelectsOptions, SelectsValues } from 'common/commonTypings';
+import { SelectOption, SelectValues } from 'common/commonTypings';
+import * as S from './selectStyles';
 import { selectStyles } from './selectStyles';
-
-const FormFieldWrapper = styled.div`
-    width: 100%;
-    margin: 0;
-    position: relative;
-`;
-
-export const Label = styled.label`
-    font-size: ${fontSize.normal};
-    color: black;
-    display: inline-block;
-    margin-bottom: 0.5rem;
-
-    color: ${({ color }) => color};
-`;
 
 interface Props {
     label: string;
-    tags: SelectsOptions;
-    value: SelectsValues | null;
-    handleTagSelect: (selectedOptions: SelectsValues) => void;
+    tags: SelectOption[];
+    value: SelectValues | null;
+    handleTagSelect: (selectedOptions: SelectValues) => void;
     isMulti?: boolean;
     noOptionMessage?: () => string;
 }
 
-export const Select: FC<Props> = ({
+export const Select = ({
     value,
     handleTagSelect,
     noOptionMessage,
     isMulti = false,
     ...props
-}) => (
-    <FormFieldWrapper>
+}: Props) => (
+    <S.FormFieldWrapper>
         <div>
-            <Label>{props.label}</Label>
+            <S.Label>{props.label}</S.Label>
         </div>
         <ReactSelect
             isMulti={isMulti}
-            placeholder="" // Without defined placeholder it will set "Search" on remove all
             value={value}
             onChange={handleTagSelect}
             closeMenuOnSelect={!isMulti}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            styles={selectStyles as any}
+            styles={selectStyles}
             options={props.tags}
             noOptionsMessage={noOptionMessage}
         />
-    </FormFieldWrapper>
+    </S.FormFieldWrapper>
 );

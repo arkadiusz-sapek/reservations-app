@@ -2,8 +2,8 @@ import React from 'react';
 import { format } from 'date-fns';
 
 import { SlotState, TimeSlot } from '../../reservationsTypings';
-import * as S from './dateSlotsStyles';
-import { getColors } from './dateSlotsStyles';
+import * as S from './timeSlotsStyles';
+import { getColors } from './timeSlotsStyles';
 
 interface Props {
     timeSlot: TimeSlot;

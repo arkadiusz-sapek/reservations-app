@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { breakpointsValues } from 'settings/variables';
-import { MultiSelectOptionType, SelectsValues } from 'common/commonTypings';
+import { SelectValues } from 'common/commonTypings';
 import { Select } from 'common/components/Select';
 import { useViewport } from 'common/hooks/useViewport';
-import {
-    ReservationsContext,
-    setSelectedCompanies,
-} from 'features/reservations/reservationsContext';
-import { transformCompanyToOption } from 'features/reservations/reservationsHelpers';
-import { Company } from 'features/reservations/reservationsTypings';
+import { ReservationsContext, setSelectedCompanies } from '../../reservationsContext';
+import { transformCompanyToOption } from '../../reservationsHelpers';
+import { Company } from '../../reservationsTypings';
 
 interface Props {
     companies: Company[];
@@ -25,19 +22,19 @@ export const CompaniesSelect = ({ companies }: Props) => {
 
     useEffect(() => {
         setIsMobile(width < breakpointsValues.lg);
-        const elements = selectedCompanies as MultiSelectOptionType[];
         if (isMobile && selectedCompanies?.length > 1) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            dispatch(setSelectedCompanies([elements?.reverse()[0]] as any));
+            dispatch(setSelectedCompanies([selectedCompanies?.reverse()[0]]));
         }
     }, [width]);
 
     const options = companies.map(transformCompanyToOption);
 
-    const handleTagSelect = (selectedOptions: SelectsValues) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const selected = selectedOptions as any;
-        dispatch(setSelectedCompanies(Array.isArray(selected) ? selected : [selected]));
+    const handleTagSelect = (selectedOptions: SelectValues) => {
+        dispatch(
+            setSelectedCompanies(
+                Array.isArray(selectedOptions) ? selectedOptions : [selectedOptions],
+            ),
+        );
     };
 
     return (

@@ -1,9 +1,8 @@
-import { OptionTypeBase, OptionsType, ValueType } from 'react-select';
+import { ValueType } from 'react-select';
 
-export interface MultiSelectOptionType extends OptionTypeBase {
+export interface SelectOption {
     label: string;
     value: string | number;
 }
 
-export type SelectsOptions = OptionsType<MultiSelectOptionType>;
-export type SelectsValues = ValueType<MultiSelectOptionType, boolean>;
+export type SelectValues = ValueType<SelectOption, boolean>;
