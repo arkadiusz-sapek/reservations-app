@@ -19,3 +19,7 @@ export const ReservationsPageWrapper = styled.main`
         padding: 2rem;
     }
 `;
+
+export const LoaderWrapper = styled.div`
+    margin: auto;
+`;

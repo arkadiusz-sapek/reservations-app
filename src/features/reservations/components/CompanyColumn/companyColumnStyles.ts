@@ -19,7 +19,7 @@ export const ColumnWrapper = styled.div`
     margin: 0 0.25rem;
     box-shadow: ${({ theme }) => theme.palette.boxShadows.card};
 
-    ${({ theme }) => theme.breakpoints.xl} {
+    ${({ theme }) => theme.breakpoints.md} {
         max-height: calc(100vh - 10rem);
     }
 `;
@@ -37,7 +37,8 @@ export const TimeSlotGroupsWrapper = styled.div`
     padding: 0 1rem;
     overflow: scroll;
 
-    // These styles should replace the scroll on all systems with one from ios devices and be always visible
+    /* These styles replace the scroll on all systems with 
+    one from ios devices which will be also always visible */
     ::-webkit-scrollbar {
         width: 7px;
         -webkit-appearance: none;

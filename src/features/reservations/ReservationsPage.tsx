@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
 
+import { palette } from 'settings/variables';
 import { CompanyColumn } from './components/CompanyColumn';
 import { useReservationServices } from './reservationsServices';
 import { Company } from './reservationsTypings';
@@ -10,6 +12,7 @@ import * as S from './reservationsPageStyles';
 
 export const ReservationsPage = () => {
     const [companies, setCompanies] = useState<Company[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { getReservationsRequest } = useReservationServices();
 
@@ -19,12 +22,19 @@ export const ReservationsPage = () => {
     } = useContext(ReservationsContext);
 
     useEffect(() => {
-        getReservationsRequest().then(reservationsData => {
-            setCompanies(reservationsData);
-            dispatch(
-                setSelectedCompanies(reservationsData.slice(0, 3).map(transformCompanyToOption)),
-            );
-        });
+        setIsLoading(true);
+        getReservationsRequest()
+            .then(reservationsData => {
+                setCompanies(reservationsData);
+                dispatch(
+                    setSelectedCompanies(
+                        reservationsData.slice(0, 3).map(transformCompanyToOption),
+                    ),
+                );
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, []);
 
     const companiesToShow = companies.filter(company =>
@@ -34,15 +44,20 @@ export const ReservationsPage = () => {
     return (
         <S.ReservationsPageWrapper>
             <CompaniesSelect companies={companies} />
-            <S.ReservationsWrapper>
-                {companiesToShow.map(company => (
-                    <CompanyColumn key={company.id} company={company} />
-                ))}
+            <S.LoaderWrapper>
+                <ClipLoader size={60} color={palette.primary.main} loading={isLoading} />
+            </S.LoaderWrapper>
+            {isLoading || (
+                <S.ReservationsWrapper>
+                    {companiesToShow.map(company => (
+                        <CompanyColumn key={company.id} company={company} />
+                    ))}
 
-                {companiesToShow.length === 0 && (
-                    <h2>No companies to show. Please choose some company using select above</h2>
-                )}
-            </S.ReservationsWrapper>
+                    {companiesToShow.length === 0 && (
+                        <h2>No companies to show. Please choose some company using select above</h2>
+                    )}
+                </S.ReservationsWrapper>
+            )}
         </S.ReservationsPageWrapper>
     );
 };
