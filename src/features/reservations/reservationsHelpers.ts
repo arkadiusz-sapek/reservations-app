@@ -1,4 +1,5 @@
-import { areIntervalsOverlapping } from 'date-fns';
+import { areIntervalsOverlapping, format } from 'date-fns';
+import { DATE_FORMAT, DAY_OF_WEEK_FORMAT, TIME_FORMAT } from 'settings/variables';
 
 import { Company, Reservation, SlotState, TimeSlot } from './reservationsTypings';
 
@@ -13,7 +14,7 @@ export const getSlotState = (
     reservations: Reservation[],
     companyId: number,
 ) => {
-    const timeSlotIsReserved = reservations.find(
+    const timeSlotIsReserved = reservations.some(
         reservation =>
             reservation.companyId === companyId &&
             reservation.timeSlot.startDate === cardTimeSlot.startDate,
@@ -42,3 +43,10 @@ export const transformCompanyToOption = (company: Company) => ({
     value: company.id,
     label: company.name,
 });
+
+export const formatDate = (formatToUse: string) => (date: string) =>
+    format(new Date(date), formatToUse);
+
+export const getTime = formatDate(TIME_FORMAT);
+export const getDate = formatDate(DATE_FORMAT);
+export const getDayOfWeek = formatDate(DAY_OF_WEEK_FORMAT);

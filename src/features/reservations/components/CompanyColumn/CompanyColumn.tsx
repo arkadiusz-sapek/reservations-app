@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { format } from 'date-fns';
 
 import { ConfirmModal } from 'common/components/ConfirmModal';
 import { ConfirmModalProps } from 'common/components/ConfirmModal/ConfirmModal';
@@ -15,9 +14,24 @@ import {
     SlotState,
     TimeSlot,
 } from 'features/reservations/reservationsTypings';
-import { getSlotState } from 'features/reservations/reservationsHelpers';
+import {
+    getDate,
+    getDayOfWeek,
+    getSlotState,
+    getTime,
+} from 'features/reservations/reservationsHelpers';
 import { TimeSlotCard } from '../TimeSlotCard';
 import * as S from './companyColumnStyles';
+
+const modalRemoveProps = {
+    headerText: 'Reservation removal confirmation',
+    text: 'Are you sure you want to remove the reservation?',
+};
+
+const modalChangeReservationProps = {
+    headerText: 'Reservation change confirmation',
+    text: 'Are you sure you want to change the reservation? It will remove current reservation for this company',
+};
 
 interface Props {
     company: Company;
@@ -45,22 +59,21 @@ export const CompanyColumn = ({ company }: Props) => {
     const handleSlotClick = (timeSlot: TimeSlot) => {
         const slotState = getSlotState(timeSlot, reservations, company.id);
 
-        if (slotState !== SlotState.Free) {
-            return;
-        }
-
-        if (companyReservation) {
-            setConfirmModalProps({
-                handleAction: () => handleReservationChange(timeSlot),
-                headerText: 'Reservation change confirmation',
-                text: 'Are you sure you want to change the reservation? It will remove current reservation for this company',
-            });
-            setIsConfirmModalOpen(true);
-
-            return;
-        }
-        if (slotState === SlotState.Free) {
-            dispatch(setReservationForFreeSlot({ timeSlot, companyId: company.id }));
+        switch (true) {
+            case slotState !== SlotState.Free: {
+                return;
+            }
+            case !!companyReservation: {
+                setConfirmModalProps({
+                    handleAction: () => handleReservationChange(timeSlot),
+                    ...modalChangeReservationProps,
+                });
+                setIsConfirmModalOpen(true);
+                return;
+            }
+            default: {
+                dispatch(setReservationForFreeSlot({ timeSlot, companyId: company.id }));
+            }
         }
     };
 
@@ -71,8 +84,7 @@ export const CompanyColumn = ({ company }: Props) => {
     const openRemovalModal = () => {
         setConfirmModalProps({
             handleAction: handleReservationRemoval,
-            headerText: 'Reservation removal confirmation',
-            text: 'Are you sure you want to remove the reservation?',
+            ...modalRemoveProps,
         });
 
         setIsConfirmModalOpen(true);
@@ -89,14 +101,16 @@ export const CompanyColumn = ({ company }: Props) => {
                 {companyReservation ? (
                     <>
                         <h6>Reservation</h6>
-                        <div data-testid="reservationDay">
-                            {format(new Date(companyReservation.timeSlot.startDate), 'EEEE')} (
-                            {format(new Date(companyReservation.timeSlot.startDate), 'yyyy-MM-dd')})
-                        </div>
-                        <div data-testid="reservationTime">
-                            {format(new Date(companyReservation.timeSlot.startDate), 'hh:mm')}-
-                            {format(new Date(companyReservation.timeSlot.endDate), 'hh:mm')}
-                        </div>
+                        <S.ReservationTimeWrapper dateTime={companyReservation.timeSlot.startDate}>
+                            <div data-testid="reservationDay">
+                                {getDayOfWeek(companyReservation.timeSlot.startDate)} (
+                                {getDate(companyReservation.timeSlot.startDate)})
+                            </div>
+                            <div data-testid="reservationTime">
+                                {getTime(companyReservation.timeSlot.startDate)}-
+                                {getTime(companyReservation.timeSlot.endDate)}
+                            </div>
+                        </S.ReservationTimeWrapper>
                         <Button
                             onClick={() => openRemovalModal()}
                             data-testid="removeReservationButton"
@@ -110,11 +124,12 @@ export const CompanyColumn = ({ company }: Props) => {
             </S.ColumnContentWrapper>
 
             <S.TimeSlotGroupsWrapper>
-                {Object.entries(company.days).map(([date, timeSlots]) => (
-                    <S.TimeSlotGroupWrapper key={date}>
+                {Object.entries(company.days).map(([groupDate, timeSlots]) => (
+                    <S.TimeSlotGroupWrapper key={groupDate}>
                         <S.TimeSlotGroupHeader data-testid="timeSlotGroupHeader">
-                            {format(new Date(date), 'EEEE')} ({format(new Date(date), 'yyyy-MM-dd')}
-                            )
+                            <time dateTime={groupDate}>
+                                {getDayOfWeek(groupDate)} ({getDate(groupDate)})
+                            </time>
                         </S.TimeSlotGroupHeader>
                         <S.TimeSlotGroupWrapper>
                             {timeSlots.map(timeSlot => (

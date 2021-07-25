@@ -71,7 +71,7 @@ test('should fetch companies data and renders reservations page', async () => {
     );
 
     expect(getByTestId('companyHeader-Company 1')).toHaveTextContent('Company 1');
-    expect(getByTestId('timeSlotGroupHeader')).toHaveTextContent('Sunday (2018-07-01)');
+    expect(getByTestId('timeSlotGroupHeader')).toHaveTextContent('Monday (2018-07-09)');
     expect(getByTestId('timeSlotCard-2018-07-09T08:00:00.000+02:00')).toHaveTextContent(
         '08:00 - 09:30',
     );

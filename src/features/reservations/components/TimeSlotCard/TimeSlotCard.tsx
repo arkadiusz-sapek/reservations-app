@@ -1,7 +1,7 @@
 import React from 'react';
-import { format } from 'date-fns';
 
 import { SlotState, TimeSlot } from '../../reservationsTypings';
+import { getTime } from '../../reservationsHelpers';
 import * as S from './timeSlotsStyles';
 import { getColors } from './timeSlotsStyles';
 
@@ -19,8 +19,9 @@ const TimeSlotCardComponent = ({ timeSlot, slotState }: Props) => {
             cursor={slotState === SlotState.Free ? 'pointer' : 'default'}
             data-testid={`timeSlotCard-${timeSlot.startDate}`}
         >
-            {format(new Date(timeSlot.startDate), 'hh:mm')} -{' '}
-            {format(new Date(timeSlot.endDate), 'hh:mm')}
+            <time dateTime={timeSlot.startDate}>
+                {getTime(timeSlot.startDate)} - {getTime(timeSlot.endDate)}
+            </time>
         </S.TimeSlotWrapper>
     );
 };

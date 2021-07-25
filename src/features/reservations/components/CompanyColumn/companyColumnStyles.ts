@@ -44,6 +44,12 @@ export const TimeSlotGroupWrapper = styled.div`
     flex-wrap: wrap;
 `;
 
+export const ReservationTimeWrapper = styled.time`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
 export const TimeSlotsWrapper = styled.div`
     padding: 0.5rem 0;
     display: flex;

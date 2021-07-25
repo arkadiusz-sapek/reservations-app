@@ -1,6 +1,7 @@
 import { compareAsc } from 'date-fns';
 import { groupBy } from 'ramda';
 import { apiEndpoints } from 'settings/api';
+
 import { httpClient } from 'common/services/httpClient';
 import { TimeSlot, TimeSlotResponse, Company, CompanyResponse } from './reservationsTypings';
 
@@ -16,7 +17,7 @@ export const useReservationServices = () => {
     const groupByDay = groupBy((timeslot: TimeSlot) => {
         const date = new Date(timeslot.startDate);
 
-        return new Date(date.getFullYear(), date.getMonth(), date.getDay()).toString();
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate()).toString();
     });
 
     const transformResponseToCompany = ({ time_slots, ...company }: CompanyResponse): Company => ({

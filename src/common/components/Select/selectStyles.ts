@@ -11,9 +11,9 @@ export const FormFieldWrapper = styled.div`
 `;
 
 export const Label = styled.label`
-    font-size: ${fontSize.normal};
     display: inline-block;
     margin-bottom: 0.5rem;
+    font-size: ${fontSize.normal};
     color: ${({ theme }) => theme.palette.text.primary};
 `;
 
@@ -32,10 +32,10 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
     }),
     valueContainer: provided => ({
         ...provided,
+        padding: '0.4rem 0 0.4rem 1rem',
         color: palette.text.primary,
         backgroundColor: palette.background.primary,
         borderRadius: '0',
-        padding: '0.4rem 0 0.4rem 1rem',
     }),
     indicatorsContainer: provided => ({
         ...provided,
@@ -54,6 +54,7 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
     }),
     container: provided => ({
         ...provided,
+        margin: '0.25rem',
     }),
     indicatorSeparator: provided => ({
         ...provided,
