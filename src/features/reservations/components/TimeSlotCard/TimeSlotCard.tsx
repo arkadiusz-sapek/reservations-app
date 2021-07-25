@@ -19,13 +19,10 @@ export const TimeSlotCard = ({ timeSlot, handleClick, slotState }: Props) => {
             backgroundColor={slotColors.background}
             textColor={slotColors.text}
             cursor={slotState === SlotState.Free ? 'pointer' : 'default'}
+            data-testid={`timeSlotCard-${timeSlot.startDate}`}
         >
-            {/* <div> */}
-            {/* <S.TimeDesignation>From:</S.TimeDesignation> */}
             {format(new Date(timeSlot.startDate), 'hh:mm')} -{' '}
             {format(new Date(timeSlot.endDate), 'hh:mm')}
-            {/* </div> */}
-            <div>{/* <S.TimeDesignation>To:</S.TimeDesignation> */}</div>
         </S.TimeSlotWrapper>
     );
 };

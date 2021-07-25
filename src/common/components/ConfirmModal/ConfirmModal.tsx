@@ -30,8 +30,12 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
             <S.Header>{headerText}</S.Header>
             <S.Info>{text}</S.Info>
             <S.ButtonRow>
-                <S.ActionButton onClick={confirmHandler}>Yes</S.ActionButton>
-                <S.ActionButton onClick={closeModal}>No</S.ActionButton>
+                <S.ActionButton onClick={confirmHandler} data-testid="modalConfirmButton">
+                    Yes
+                </S.ActionButton>
+                <S.ActionButton onClick={closeModal} data-testid="modalCancelButton">
+                    No
+                </S.ActionButton>
             </S.ButtonRow>
         </Modal>
     );

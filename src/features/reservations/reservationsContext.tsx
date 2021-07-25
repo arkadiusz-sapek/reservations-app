@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from 'react';
 
 import { Reservation } from './reservationsTypings';
 
-export interface ReservationState {
+export interface ReservationsState {
     reservations: Reservation[];
     selectedCompanies: SelectsValues;
 }
@@ -14,11 +14,11 @@ type Action =
     | { type: 'SET_SELECTED_COMPANIES'; payload: { selectedCompanies: SelectsValues } };
 
 interface ContextState {
-    state: ReservationState;
+    state: ReservationsState;
     dispatch: (action: Action) => void;
 }
 
-const defaultInitialState: ReservationState = {
+const defaultInitialState: ReservationsState = {
     reservations: [],
     selectedCompanies: [],
 };
@@ -38,7 +38,7 @@ const setSelectedCompanies = (selectedCompanies: SelectsValues): Action => ({
     payload: { selectedCompanies },
 });
 
-function managerWorkplacesReducer(state: ReservationState, action: Action): ReservationState {
+function managerWorkplacesReducer(state: ReservationsState, action: Action): ReservationsState {
     switch (action.type) {
         case 'SET_RESERVATION':
             return { ...state, reservations: [...state.reservations, action.payload.reservation] };
@@ -66,7 +66,7 @@ const ReservationsContext = createContext<ContextState>({
 
 interface Props {
     children: React.ReactNode;
-    values?: ReservationState;
+    values?: ReservationsState;
 }
 
 const ReservationsContextProvider = ({ children, values }: Props): JSX.Element => {

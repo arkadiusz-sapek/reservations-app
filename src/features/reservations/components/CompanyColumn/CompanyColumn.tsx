@@ -75,21 +75,28 @@ export const CompanyColumn = ({ company }: Props) => {
     return (
         <S.ColumnWrapper>
             <S.HeaderWrapper>
-                <S.CompanyHeader>{company.name}</S.CompanyHeader>
+                <S.CompanyHeader data-testid={`companyHeader-${company.name}`}>
+                    {company.name}
+                </S.CompanyHeader>
             </S.HeaderWrapper>
             <S.ColumnContentWrapper>
                 {companyReservation ? (
                     <>
                         <h6>Reservation</h6>
-                        <div>
+                        <div data-testid="reservationDay">
                             {format(new Date(companyReservation.timeSlot.startDate), 'EEEE')} (
                             {format(new Date(companyReservation.timeSlot.startDate), 'yyyy-MM-dd')})
                         </div>
-                        <div>
+                        <div data-testid="reservationTime">
                             {format(new Date(companyReservation.timeSlot.startDate), 'hh:mm')}-
                             {format(new Date(companyReservation.timeSlot.endDate), 'hh:mm')}
                         </div>
-                        <Button onClick={() => openRemovalModal()}>remove</Button>
+                        <Button
+                            onClick={() => openRemovalModal()}
+                            data-testid="removeReservationButton"
+                        >
+                            remove
+                        </Button>
                     </>
                 ) : (
                     <h6>No reservation</h6>
@@ -99,7 +106,7 @@ export const CompanyColumn = ({ company }: Props) => {
             <S.TimeSlotGroupsWrapper>
                 {Object.entries(company.days).map(([date, timeSlots]) => (
                     <S.TimeSlotGroupWrapper key={date}>
-                        <S.TimeSlotGroupHeader>
+                        <S.TimeSlotGroupHeader data-testid="timeSlotGroupHeader">
                             {format(new Date(date), 'EEEE')} ({format(new Date(date), 'yyyy-MM-dd')}
                             )
                         </S.TimeSlotGroupHeader>
