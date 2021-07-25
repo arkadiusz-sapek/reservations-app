@@ -20,7 +20,7 @@ export const ColumnWrapper = styled.div`
     box-shadow: ${({ theme }) => theme.palette.boxShadows.card};
 
     ${({ theme }) => theme.breakpoints.xl} {
-        max-height: 50rem;
+        max-height: calc(100vh - 10rem);
     }
 `;
 

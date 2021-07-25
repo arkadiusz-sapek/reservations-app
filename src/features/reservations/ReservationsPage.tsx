@@ -3,10 +3,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { CompanyColumn } from './components/CompanyColumn';
 import { useReservationServices } from './reservationsServices';
 import { Company } from './reservationsTypings';
-import * as S from './reservationsPageStyles';
 import { CompaniesSelect } from './components/CompaniesSelect';
 import { ReservationsContext, setSelectedCompanies } from './reservationsContext';
 import { transformCompanyToOption } from './reservationsHelpers';
+import * as S from './reservationsPageStyles';
 
 export const ReservationsPage = () => {
     const [companies, setCompanies] = useState<Company[]>([]);
