@@ -36,6 +36,18 @@ export const ColumnContentWrapper = styled.div`
 export const TimeSlotGroupsWrapper = styled.div`
     padding: 0 1rem;
     overflow: scroll;
+
+    // These styles should replace the scroll on all systems with one from ios devices and be always visible
+    ::-webkit-scrollbar {
+        width: 7px;
+        -webkit-appearance: none;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+        box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    }
 `;
 
 export const TimeSlotGroupWrapper = styled.div`
