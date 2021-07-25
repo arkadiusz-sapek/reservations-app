@@ -27,7 +27,8 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
         padding: '0.55rem 0 0.55rem 2rem',
         transition: '0.5s',
         '&:hover': {
-            backgroundColor: palette.background.primary,
+            backgroundColor: palette.primary.light,
+            color: palette.primary.contrastText,
         },
     }),
     valueContainer: provided => ({

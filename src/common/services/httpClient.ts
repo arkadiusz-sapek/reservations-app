@@ -18,7 +18,7 @@ httpClient.interceptors.response.use(
     response => response,
     error => {
         if (!error.response) {
-            toast('Network error.');
+            toast.error('Network error.');
         } else {
             const {
                 response: { status, data },

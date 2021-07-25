@@ -44,9 +44,7 @@ export const ReservationsPage = () => {
     return (
         <S.ReservationsPageWrapper>
             <CompaniesSelect companies={companies} />
-            <S.LoaderWrapper>
-                <ClipLoader size={60} color={palette.primary.main} loading={isLoading} />
-            </S.LoaderWrapper>
+
             {isLoading || (
                 <S.ReservationsWrapper>
                     {companiesToShow.map(company => (
@@ -54,10 +52,16 @@ export const ReservationsPage = () => {
                     ))}
 
                     {companiesToShow.length === 0 && (
-                        <h2>No companies to show. Please choose some company using select above</h2>
+                        <h2>
+                            No companies to show. Please choose some company using select above or
+                            refresh page
+                        </h2>
                     )}
                 </S.ReservationsWrapper>
             )}
+            <S.LoaderWrapper>
+                <ClipLoader size={60} color={palette.primary.main} loading={isLoading} />
+            </S.LoaderWrapper>
         </S.ReservationsPageWrapper>
     );
 };
