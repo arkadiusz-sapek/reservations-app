@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+    # api:
+    #     build:
+    #         dockerfile: Dockerfile
+    #         context: .
+    #     depends_on:
+    #         - db
+    #     environment:
+    #         DATABASE_URL: postgres://user:password@postgres:5432/db
+    #         NODE_ENV: development
+    #         PORT: 3000
+    #     ports:
+    #         - '8080:3000'
+
+    db:
+        image: postgres:12.0-alpine
+        ports:
+            - 5432:5432
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB=db
+volumes:
+    postgres_data:
