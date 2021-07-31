@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { SlotState } from 'features/reservations/reservationsTypings';
+import { SlotState } from 'features/Reservations/reservationsTypings';
 import { palette } from 'settings/variables';
 
 export const getColors = (slotState: SlotState) => {

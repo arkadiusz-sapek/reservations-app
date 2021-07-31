@@ -7,19 +7,19 @@ import {
     removeReservation,
     ReservationsContext,
     setReservationForFreeSlot,
-} from 'features/reservations/reservationsContext';
+} from 'features/Reservations/reservationsContext';
 import {
     Company,
     Reservation,
     SlotState,
     TimeSlot,
-} from 'features/reservations/reservationsTypings';
+} from 'features/Reservations/reservationsTypings';
 import {
     getDate,
     getDayOfWeek,
     getSlotState,
     getTime,
-} from 'features/reservations/reservationsHelpers';
+} from 'features/Reservations/reservationsHelpers';
 import { TimeSlotCard } from '../TimeSlotCard';
 import * as S from './companyColumnStyles';
 
