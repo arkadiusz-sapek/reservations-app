@@ -5,7 +5,6 @@ import * as bcrypt from 'bcryptjs';
 import { CredentialsDto } from 'src/users/dto/credentials.dto';
 import { CreateUserDto } from 'src/users/dto/user.dto';
 import { User } from 'src/users/models/user.entity';
-
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class AuthService {
     ) {}
 
     async register(user: CreateUserDto) {
-        const { email, password, type } = user;
+        const { email, password, role } = user;
 
         const emailExists = await this.usersService.getUserByEmail(email);
 
@@ -25,7 +24,7 @@ export class AuthService {
         }
 
         const hash = await bcrypt.hash(password, 10);
-        const newUser = await this.usersService.createUser({ email, password: hash, type });
+        const newUser = await this.usersService.createUser({ email, password: hash, role });
 
         const userData = await this.signToken(newUser);
 

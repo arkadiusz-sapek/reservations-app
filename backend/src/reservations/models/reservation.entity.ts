@@ -1,4 +1,5 @@
 import { Company } from 'src/companies/models/company.entity';
+import { User } from 'src/users/models/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity()
@@ -8,9 +9,6 @@ export class Reservation {
 
     @Column()
     name: string;
-
-    @Column()
-    consultantId: string;
 
     @Column()
     startDate: string;
@@ -24,4 +22,11 @@ export class Reservation {
     )
     @JoinColumn({ name: 'companyId' })
     company: Company;
+
+    @ManyToOne(
+        type => User,
+        user => user.reservations,
+    )
+    @JoinColumn({ name: 'userId' })
+    user: User;
 }

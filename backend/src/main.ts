@@ -10,6 +10,7 @@ import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
 import * as rateLimit from 'express-rate-limit';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ValidationPipe } from '@nestjs/common';
 
 declare const module: any;
 
@@ -38,6 +39,7 @@ async function bootstrap() {
     app.enableShutdownHooks();
 
     app.use(logger.expressWinstonLogger);
+    app.useGlobalPipes(new ValidationPipe());
 
     app.use(helmet({}));
     app.use(cookieParser());

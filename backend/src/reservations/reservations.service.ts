@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { plainToClass, classToPlain } from 'class-transformer';
 
+import { CreateReservationDto } from './dto/reservation.dto';
 import { Reservation } from './models/reservation.entity';
 
 @Injectable()
@@ -14,10 +16,18 @@ export class ReservationsService {
         return await this.reservationRepo.find();
     }
 
-    public async createReservation(reservation: Reservation) {
-        const newReservation = this.reservationRepo.create(reservation);
+    public async create(reservation: CreateReservationDto) {
+        const newReservation = this.reservationRepo.create(
+            this.transformCreateReservationToModel(reservation),
+        );
         await this.reservationRepo.save(newReservation);
 
         return newReservation;
+    }
+
+    private transformCreateReservationToModel(userDto: CreateReservationDto): Reservation {
+        const data = classToPlain(userDto);
+
+        return plainToClass(Reservation, data);
     }
 }
