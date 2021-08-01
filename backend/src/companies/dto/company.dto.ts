@@ -5,16 +5,13 @@ export class CreateCompanyDto {
     name: string;
 
     @IsNotEmpty()
-    type: string;
+    description: string;
 
     @IsMilitaryTime()
-    reservationPeriodStart: string;
+    reservationAvailabilityStart: string;
 
     @IsMilitaryTime()
-    reservationPeriodEnd: string;
-
-    @IsNumber()
-    user: string;
+    reservationAvailabilityEnd: string;
 }
 
 export class CompanyDto extends CreateCompanyDto {

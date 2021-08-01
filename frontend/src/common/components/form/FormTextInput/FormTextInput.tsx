@@ -1,11 +1,12 @@
-import { FormFieldWrapper, Input } from 'common/styled';
-import React from 'react';
 import { useFormContext, Controller, ControllerProps } from 'react-hook-form';
+
+import { FormFieldWrapper, Input, Textarea } from 'common/styled';
+import React from 'react';
 
 interface Props extends Omit<ControllerProps, 'render'> {
     label: string;
     required?: boolean;
-    type?: 'text' | 'password' | 'number';
+    type?: 'text' | 'password' | 'number' | 'time';
     className?: string;
     multiline?: boolean;
     rows?: number;
@@ -33,15 +34,28 @@ export const FormTextInput = ({
             render={({ field: { onChange, value } }) => (
                 <FormFieldWrapper>
                     <span>{props.label}</span>
-                    <Input
-                        disabled={disabled}
-                        value={value || ''}
-                        onChange={onChange}
-                        required={required}
-                        type={type}
-                        data-testid={`${props.name}Input`}
-                        className={className}
-                    />
+
+                    {!multiline ? (
+                        <Input
+                            disabled={disabled}
+                            value={value || ''}
+                            onChange={onChange}
+                            required={required}
+                            type={type}
+                            data-testid={`${props.name}Input`}
+                            className={className}
+                        />
+                    ) : (
+                        <Textarea
+                            value={value || ''}
+                            onChange={onChange}
+                            disabled={disabled}
+                            required={required}
+                            rows={rows}
+                            data-testid={`${props.name}Textarea`}
+                        />
+                    )}
+
                     <span>{fieldErrors?.message}</span>
                 </FormFieldWrapper>
             )}

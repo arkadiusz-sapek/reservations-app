@@ -1,5 +1,6 @@
 export const routes = {
-    reservations: '/reservations',
     loginPanel: '/login',
     registerPanel: '/sing-in',
+    reservations: '/reservations',
+    companies: '/companies',
 };

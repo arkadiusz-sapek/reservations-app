@@ -14,15 +14,17 @@ export class CompaniesService {
         return await this.companyRepo.find();
     }
 
-    public async create(company: CreateCompanyDto) {
-        const newCompany = this.companyRepo.create(this.transformCreateCompanyToModel(company));
+    public async create(company: CreateCompanyDto, userId: string) {
+        const newCompany = this.companyRepo.create(
+            this.transformCreateCompanyToModel(company, userId),
+        );
         await this.companyRepo.save(newCompany);
 
         return newCompany;
     }
 
-    private transformCreateCompanyToModel(companyDto: CreateCompanyDto): Company {
-        const data = classToPlain(companyDto);
+    private transformCreateCompanyToModel(companyDto: CreateCompanyDto, userId: string): Company {
+        const data = classToPlain({ ...companyDto, user: userId });
 
         return plainToClass(Company, data);
     }

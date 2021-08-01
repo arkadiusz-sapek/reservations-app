@@ -11,11 +11,11 @@ export const ReservationsPage = () => {
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const { getReservationsRequest } = useReservationServices();
+    const { getReservations } = useReservationServices();
 
     useEffect(() => {
         setIsLoading(true);
-        getReservationsRequest()
+        getReservations()
             .then(reservationsData => {
                 setReservations(reservationsData);
             })

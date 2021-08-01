@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from 'typeorm';
 
 import { Company } from 'src/companies/models/company.entity';
 import { Reservation } from 'src/reservations/models/reservation.entity';
@@ -18,7 +18,7 @@ export class User {
     @Column()
     role: UserRole;
 
-    @OneToMany(
+    @OneToOne(
         type => Company,
         company => company.user,
     )

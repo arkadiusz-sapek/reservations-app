@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 
 import { Reservation } from 'src/reservations/models/reservation.entity';
 import { User } from 'src/users/models/user.entity';
@@ -12,15 +12,15 @@ export class Company {
     name: string;
 
     @Column()
-    type: string;
+    description: string;
 
     @Column()
-    reservationPeriodStart: string;
+    reservationAvailabilityStart: string;
 
     @Column()
-    reservationPeriodEnd: string;
+    reservationAvailabilityEnd: string;
 
-    @ManyToOne(
+    @OneToOne(
         type => User,
         user => user.companies,
     )

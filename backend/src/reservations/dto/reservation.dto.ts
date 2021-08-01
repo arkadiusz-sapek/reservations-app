@@ -2,7 +2,7 @@ import { IsISO8601, IsNotEmpty } from 'class-validator';
 
 export class CreateReservationDto {
     @IsNotEmpty()
-    name: string;
+    title: string;
 
     @IsISO8601()
     startDate: string;

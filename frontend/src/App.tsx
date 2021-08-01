@@ -9,6 +9,7 @@ import { RootErrorBoundary } from 'core/components/RootErrorBoundary';
 
 import { LoginPage } from 'features/Login';
 import { ReservationsPage } from 'features/Reservations/ReservationsPage';
+import { CompaniesPage } from 'features/Companies/CompaniesPage';
 
 export const App = () => (
     <RootErrorBoundary>
@@ -19,6 +20,8 @@ export const App = () => (
                     <Route path={routes.loginPanel} component={LoginPage} />
                     {/* <ReservationsContextProvider> */}
                     <Route path={routes.reservations} component={ReservationsPage} />
+                    <Route path={routes.companies} component={CompaniesPage} />
+
                     {/* </ReservationsContextProvider> */}
                 </Switch>
                 {/* </AuthorizationContextProvider> */}

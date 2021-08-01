@@ -1,11 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Headers } from '@nestjs/common';
+import { JwtUtilsService } from 'src/auth/jwtUtils.service';
 
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/company.dto';
 
 @Controller('companies')
 export class CompaniesController {
-    constructor(private companiesService: CompaniesService) {}
+    constructor(
+        private companiesService: CompaniesService,
+        private readonly jwtUtil: JwtUtilsService,
+    ) {}
 
     @Get()
     public async getAll() {
@@ -13,7 +17,9 @@ export class CompaniesController {
     }
 
     @Post()
-    async create(@Body() company: CreateCompanyDto) {
-        return this.companiesService.create(company);
+    async create(@Body() company: CreateCompanyDto, @Headers('Authorization') auth: string) {
+        const { id } = await this.jwtUtil.decode(auth);
+
+        return this.companiesService.create(company, id);
     }
 }

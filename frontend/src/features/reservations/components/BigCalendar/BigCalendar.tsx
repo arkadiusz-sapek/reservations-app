@@ -1,10 +1,13 @@
-import React from 'react';
-import { Calendar, Views, dateFnsLocalizer } from 'react-big-calendar';
+import React, { useState } from 'react';
+import { Calendar, Views, dateFnsLocalizer, SlotInfo } from 'react-big-calendar';
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
+
+import { Modal } from 'common/components/Modal';
 import { Reservation } from 'features/Reservations/reservationsTypings';
+import { ReservationForm } from '../ReservationForm';
 
 const events = [
     {
@@ -50,9 +53,11 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-export const BigCalendar = (props: Props) => {
-    const handleSelect = () => {
-        console.log('nowa rezerwacja');
+export const BigCalendar = (_props: Props) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleSelect = (_slotInfo: SlotInfo) => {
+        setIsModalOpen(true);
     };
 
     return (
@@ -68,6 +73,9 @@ export const BigCalendar = (props: Props) => {
                 onSelectSlot={handleSelect}
                 views={[Views.WEEK]}
             />
+            <Modal isOpen={isModalOpen}>
+                <ReservationForm />
+            </Modal>
         </>
     );
 };
