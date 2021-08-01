@@ -1,7 +1,6 @@
 import { Config } from './config.model';
 import { parseBoolean } from './config.helper';
 
-// TODO: Add SSL, JWT, WS, DATABASE etc. configs
 export function configFactory(): Config {
     return {
         logger: {
@@ -35,13 +34,11 @@ export function configFactory(): Config {
             },
         },
         jwt: {
-            secret:
-                process.env.JWT_SECRET ||
-                (process.env.JWT_PUBLIC_KEY || process.env.JWT_PRIVATE_KEY ? undefined : 'secret'),
+            secret: 'secretKey',
             publicKey: process.env.JWT_PUBLIC_KEY,
             privateKey: process.env.JWT_PRIVATE_KEY,
             signOptions: {
-                expiresIn: process.env.JWT_EXPIRES_IN || '60s',
+                expiresIn: process.env.JWT_EXPIRES_IN || '3600s',
             },
         },
         db: {

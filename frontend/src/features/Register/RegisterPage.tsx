@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, FormGroup, Grid, Typography } from '@material-ui/core';
+// import { Button, FormGroup, Grid, Typography } from '@material-ui/core';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
 import { getRequired } from 'common/helpers/validationHelpers';
-import { AuthPanelWrapper } from 'common/components/AuthPanelWrapper/AuthPanelWrapper';
+// import { AuthPanelWrapper } from 'common/components/AuthPanelWrapper/AuthPanelWrapper';
 import { FormTextInput } from 'common/components/form/FormTextInput';
 import { RegisterFormValues } from './typings';
 import { useRegisterServices } from './registerServices';
@@ -18,17 +18,17 @@ const validationSchema = Yup.object().shape({
 });
 
 export const RegisterPage = (): JSX.Element => {
-    const { register } = useRegisterServices();
+    // const { register } = useRegisterServices();
 
     const formControl = useForm<RegisterFormValues>({
         resolver: yupResolver(validationSchema),
     });
 
-    const onSubmit = (data: RegisterFormValues) => register(data);
+    // const onSubmit = (data: RegisterFormValues) => register(data);
 
     return (
-        <AuthPanelWrapper>
-            <Grid item>
+        <>
+            {/* <Grid item>
                 <Typography variant="h4" align="center" data-testid="header">
                     Wypełnij pola poniżej, aby utworzyć konto
                 </Typography>
@@ -61,7 +61,7 @@ export const RegisterPage = (): JSX.Element => {
                         </Button>
                     </form>
                 </FormProvider>
-            </Grid>
-        </AuthPanelWrapper>
+            </Grid> */}
+        </>
     );
 };

@@ -1,17 +1,15 @@
-// import { useHistory } from 'react-router-dom';
-// import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
+import { TOKEN_COOKIE_NAME } from 'settings/variables';
 import { apiEndpoints } from 'settings/api';
-// import { routes } from 'settings/routes';
-// import { AuthorizationContext } from 'common/contexts/authContext';
+import { routes } from 'settings/routes';
 import { httpClient } from 'common/services/httpClient';
-
 import { LoginPageFormValues, LoginRequest, LoginResponse } from './typings';
 
 export const useLoginServices = () => {
-    // const history = useHistory();
-    // const { setUserTypeAndToken } = useContext(AuthorizationContext);
+    const history = useHistory();
 
     const login = (formValues: LoginPageFormValues) => {
         const request: LoginRequest = {
@@ -19,16 +17,14 @@ export const useLoginServices = () => {
             password: formValues.password,
         };
 
-        return (
-            httpClient
-                .post<LoginResponse>(apiEndpoints.login, request)
-                .then(response => response.data.token)
-                // .then(token => setUserTypeAndToken({ token }))
-                // .then(() => history.push(routes.todoList))
-                .catch(error => {
-                    toast.error(error);
-                })
-        );
+        return httpClient
+            .post<LoginResponse>(apiEndpoints.login, request)
+            .then(response => response.data.token)
+            .then(token => Cookies.set(TOKEN_COOKIE_NAME, token))
+            .then(() => history.push(routes.reservations))
+            .catch(error => {
+                toast.error(error);
+            });
     };
 
     return { login };

@@ -16,6 +16,10 @@ export class ReservationsService {
         return await this.reservationRepo.find();
     }
 
+    public async getForUser(userId: string) {
+        return await this.reservationRepo.find({ where: { user: userId } });
+    }
+
     public async create(reservation: CreateReservationDto) {
         const newReservation = this.reservationRepo.create(
             this.transformCreateReservationToModel(reservation),

@@ -1,3 +1,4 @@
+import { FormFieldWrapper, Input } from 'common/styled';
 import React from 'react';
 import { useFormContext, Controller, ControllerProps } from 'react-hook-form';
 
@@ -30,9 +31,9 @@ export const FormTextInput = ({
             control={control}
             rules={{ required }}
             render={({ field: { onChange, value } }) => (
-                <>
+                <FormFieldWrapper>
                     <span>{props.label}</span>
-                    <input
+                    <Input
                         disabled={disabled}
                         value={value || ''}
                         onChange={onChange}
@@ -42,7 +43,7 @@ export const FormTextInput = ({
                         className={className}
                     />
                     <span>{fieldErrors?.message}</span>
-                </>
+                </FormFieldWrapper>
             )}
             {...props}
         />

@@ -1,67 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-import { palette } from 'settings/variables';
-import { CompanyColumn } from './components/CompanyColumn';
 import { useReservationServices } from './reservationsServices';
-import { Company } from './reservationsTypings';
-import { CompaniesSelect } from './components/CompaniesSelect';
-import { ReservationsContext, setSelectedCompanies } from './reservationsContext';
-import { transformCompanyToOption } from './reservationsHelpers';
+
 import * as S from './reservationsPageStyles';
+import { BigCalendar } from './components/BigCalendar';
+import { Reservation } from './reservationsTypings';
 
 export const ReservationsPage = () => {
-    const [companies, setCompanies] = useState<Company[]>([]);
+    const [reservations, setReservations] = useState<Reservation[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     const { getReservationsRequest } = useReservationServices();
-
-    const {
-        dispatch,
-        state: { selectedCompanies },
-    } = useContext(ReservationsContext);
 
     useEffect(() => {
         setIsLoading(true);
         getReservationsRequest()
             .then(reservationsData => {
-                setCompanies(reservationsData);
-                dispatch(
-                    setSelectedCompanies(
-                        reservationsData.slice(0, 3).map(transformCompanyToOption),
-                    ),
-                );
+                setReservations(reservationsData);
             })
-            .finally(() => {
-                setIsLoading(false);
-            });
+            .finally(() => setIsLoading(false));
     }, []);
-
-    const companiesToShow = companies.filter(company =>
-        selectedCompanies?.some(({ value }) => value === company.id),
-    );
 
     return (
         <S.ReservationsPageWrapper>
-            <CompaniesSelect companies={companies} />
+            <div className="pr-4">{/* <SmallCalendar /> */}</div>
 
-            {isLoading || (
-                <S.ReservationsWrapper>
-                    {companiesToShow.map(company => (
-                        <CompanyColumn key={company.id} company={company} />
-                    ))}
-
-                    {companiesToShow.length === 0 && (
-                        <h2>
-                            No companies to show. Please choose some company using select above or
-                            refresh page
-                        </h2>
-                    )}
-                </S.ReservationsWrapper>
-            )}
-            <S.LoaderWrapper>
-                <ClipLoader size={60} color={palette.primary.main} loading={isLoading} />
-            </S.LoaderWrapper>
+            <div className="w-full">
+                <BigCalendar reservations={reservations} />
+            </div>
+            <ClipLoader size={60} color="white" loading={isLoading} />
         </S.ReservationsPageWrapper>
     );
 };

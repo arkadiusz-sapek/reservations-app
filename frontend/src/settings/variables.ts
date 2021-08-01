@@ -76,3 +76,5 @@ export type ThemeTyping = typeof theme;
 export const TIME_FORMAT = 'HH:mm';
 export const DATE_FORMAT = 'yyyy-MM-dd';
 export const DAY_OF_WEEK_FORMAT = 'EEEE';
+
+export const TOKEN_COOKIE_NAME = 'TOKEN';

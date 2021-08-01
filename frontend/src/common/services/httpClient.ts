@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+
+import { TOKEN_COOKIE_NAME } from 'settings/variables';
 
 const basePath = process.env.REACT_APP_API_URL;
 
@@ -10,7 +13,20 @@ export const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use(
-    config => ({ ...config, url: `${basePath}${config.url}` }),
+    config => {
+        const url = `${basePath}${config.url}`;
+        const token = Cookies.get(TOKEN_COOKIE_NAME);
+
+        if (token) {
+            return {
+                ...config,
+                url,
+                headers: { ...config.headers, Authorization: `Bearer ${token}` },
+            };
+        }
+
+        return { ...config, url };
+    },
     error => Promise.reject(error),
 );
 
