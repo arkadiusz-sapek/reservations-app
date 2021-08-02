@@ -11,6 +11,9 @@ export class Reservation {
     title: string;
 
     @Column()
+    description: string;
+
+    @Column()
     startDate: string;
 
     @Column()

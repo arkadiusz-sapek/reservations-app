@@ -17,7 +17,7 @@ export const Label = styled.label`
     color: ${({ theme }) => theme.palette.text.primary};
 `;
 
-const controlBorder = `solid 1px gray`;
+const controlBorder = `solid 1px black`;
 
 export const selectStyles: StylesConfig<SelectOption, false> = {
     option: provided => ({
@@ -36,26 +36,27 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
         padding: '0.4rem 0 0.4rem 1rem',
         color: palette.text.primary,
         backgroundColor: palette.background.primary,
-        borderRadius: '0',
+        borderRadius: '0.25rem',
     }),
     indicatorsContainer: provided => ({
         ...provided,
-        borderRadius: '0',
+        borderRadius: '0.25rem',
         backgroundColor: palette.background.primary,
     }),
     control: provided => ({
         ...provided,
         border: controlBorder,
-        borderRadius: '0',
         fontSize: fontSize.normal,
         boxShadow: 'none',
+        borderRadius: '0.25rem',
+
         '&:hover': {
             border: controlBorder,
         },
     }),
     container: provided => ({
         ...provided,
-        margin: '0.25rem',
+        borderRadius: '0.25rem',
     }),
     indicatorSeparator: provided => ({
         ...provided,

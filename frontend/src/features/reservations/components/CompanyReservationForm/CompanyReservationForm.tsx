@@ -3,10 +3,10 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Reservation } from 'features/Reservations/reservationsTypings';
+import { Reservation, ReservationFormValues } from 'features/Reservations/reservationsTypings';
 import { getRequired } from 'common/helpers/validationHelpers';
 import { FormTextInput } from 'common/components/form/FormTextInput';
-import { FormRangePicker } from 'common/components/form/FormRangePicker';
+import { FormRangePicker } from 'common/components/form/FormDateTimePicker';
 import { useReservationServices } from 'features/Reservations/reservationsServices';
 import { UserRole } from 'common/typings/authTypings';
 
@@ -25,17 +25,18 @@ const validationSchema = Yup.object().shape({
 
 interface Props {
     initialValues?: Reservation;
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CompanyReservationForm = ({ initialValues }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [consultantOptions, setConsultantsOptions] = useState<SelectOption[]>([]);
 
-    const formControl = useForm<Reservation>({
+    const formControl = useForm<ReservationFormValues>({
         resolver: yupResolver(validationSchema),
     });
 
-    const { createReservation } = useReservationServices();
+    const { createReservationForConsultant } = useReservationServices();
     const { getAllUsers } = useUserServices();
 
     const getConsultants = () => {
@@ -52,10 +53,10 @@ export const CompanyReservationForm = ({ initialValues }: Props) => {
         getConsultants();
     }, []);
 
-    const onSubmit = (reservationFormValues: Reservation) => {
+    const onSubmit = (reservationFormValues: ReservationFormValues) => {
         setIsLoading(true);
 
-        createReservation(reservationFormValues)
+        createReservationForConsultant(reservationFormValues)
             .then(() => {
                 console.log('elo');
             })

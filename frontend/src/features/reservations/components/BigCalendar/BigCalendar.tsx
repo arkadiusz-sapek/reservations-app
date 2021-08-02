@@ -12,34 +12,6 @@ import { Reservation } from 'features/Reservations/reservationsTypings';
 import { ConsultantReservationForm } from '../ConsultantReservationForm';
 import { CompanyReservationForm } from '../CompanyReservationForm';
 
-const events = [
-    {
-        id: 0,
-        title: 'Board meeting',
-        start: new Date(2021, 7, 1, 9, 2, 0),
-        end: new Date(2021, 7, 1, 13, 0, 0),
-    },
-
-    {
-        id: 1,
-        title: 'Board meeting2',
-        start: new Date(2021, 7, 1, 10, 2, 0),
-        end: new Date(2021, 7, 1, 14, 0, 0),
-    },
-    {
-        id: 2,
-        title: 'spotkanie kawusiowe',
-        start: new Date(2021, 7, 1, 11, 2, 0),
-        end: new Date(2021, 7, 1, 12, 0, 0),
-    },
-    {
-        id: 3,
-        title: 'spotkanie kawusiowe',
-        start: new Date(2021, 7, 1, 11, 2, 0),
-        end: new Date(2021, 7, 1, 12, 0, 0),
-    },
-];
-
 interface Props {
     reservations: Reservation[];
 }
@@ -56,7 +28,7 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
-export const BigCalendar = (_props: Props) => {
+export const BigCalendar = ({ reservations }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const {
@@ -66,6 +38,12 @@ export const BigCalendar = (_props: Props) => {
     const handleSelect = (_slotInfo: SlotInfo) => {
         setIsModalOpen(true);
     };
+
+    const events = reservations.map(({ startDate, endDate, ...rest }) => ({
+        start: new Date(startDate),
+        end: new Date(endDate),
+        ...rest,
+    }));
 
     return (
         <>
@@ -82,9 +60,9 @@ export const BigCalendar = (_props: Props) => {
             />
             <Modal isOpen={isModalOpen}>
                 {user?.role === UserRole.Client ? (
-                    <CompanyReservationForm />
+                    <CompanyReservationForm setIsModalOpen={setIsModalOpen} />
                 ) : (
-                    <ConsultantReservationForm />
+                    <ConsultantReservationForm setIsModalOpen={setIsModalOpen} />
                 )}
             </Modal>
         </>

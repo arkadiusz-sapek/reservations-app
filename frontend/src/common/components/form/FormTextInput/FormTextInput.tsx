@@ -6,7 +6,7 @@ import React from 'react';
 interface Props extends Omit<ControllerProps, 'render'> {
     label: string;
     required?: boolean;
-    type?: 'text' | 'password' | 'number' | 'time';
+    type?: 'text' | 'password' | 'number' | 'time' | 'date';
     className?: string;
     multiline?: boolean;
     rows?: number;
@@ -53,6 +53,7 @@ export const FormTextInput = ({
                             required={required}
                             rows={rows}
                             data-testid={`${props.name}Textarea`}
+                            className={className}
                         />
                     )}
 

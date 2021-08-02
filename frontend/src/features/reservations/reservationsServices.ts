@@ -1,15 +1,46 @@
+import { useContext } from 'react';
+
 import { apiEndpoints } from 'settings/api';
 import { httpClient } from 'common/services/httpClient';
-import { CreateReservationRequest, Reservation } from './reservationsTypings';
+import { AuthContext } from 'common/contexts/AuthContext';
+import {
+    CreateReservationRequest,
+    Reservation,
+    ReservationFormValues,
+} from './reservationsTypings';
 
 export const useReservationServices = () => {
+    const {
+        state: { user },
+    } = useContext(AuthContext);
+
     const getReservations = (): Promise<Reservation[]> =>
         httpClient.get<Reservation[]>(apiEndpoints.reservations).then(({ data }) => data);
 
-    const createReservation = (reservation: CreateReservationRequest): Promise<Reservation> =>
-        httpClient
-            .post<Reservation>(apiEndpoints.reservations, reservation)
-            .then(({ data }) => data);
+    const transformFormValuesToRequest = ({
+        startDate,
+        startTime,
+        endDate,
+        endTime,
+        company,
+        ...formValues
+    }: ReservationFormValues): CreateReservationRequest => ({
+        ...formValues,
+        startDate: `${startDate} ${startTime}`,
+        endDate: `${endDate} ${endTime}`,
+        user: user?.id || '-1',
+        company: company.value.toString(),
+    });
 
-    return { getReservations, createReservation };
+    const createReservationForConsultant = (
+        reservation: ReservationFormValues,
+    ): Promise<Reservation> => {
+        const requestData = transformFormValuesToRequest(reservation);
+
+        return httpClient
+            .post<Reservation>(apiEndpoints.reservations, requestData)
+            .then(({ data }) => data);
+    };
+
+    return { getReservations, createReservationForConsultant };
 };
