@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass, classToPlain } from 'class-transformer';
 
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto, UserRole } from './dto/user.dto';
 
 import { User } from './models/user.entity';
 
@@ -11,14 +11,22 @@ import { User } from './models/user.entity';
 export class UsersService {
     constructor(@InjectRepository(User) private readonly userRepo: Repository<User>) {}
 
-    public async getAll() {
-        return await this.userRepo.find();
+    public async getAll(role: UserRole) {
+        return await this.userRepo.find({ where: { role } });
     }
 
     public async getUserByEmail(email: string) {
         const user = await this.userRepo.findOne({
             where: { email },
         });
+        return user;
+    }
+
+    public async getUserData(userId: string) {
+        const user = await this.userRepo.findOne({
+            where: { id: userId },
+        });
+
         return user;
     }
 

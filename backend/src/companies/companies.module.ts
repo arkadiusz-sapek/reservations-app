@@ -8,7 +8,6 @@ import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
     imports: [AuthModule, TypeOrmModule.forFeature([Company])],
-
     controllers: [CompaniesController],
     providers: [CompaniesService],
 })

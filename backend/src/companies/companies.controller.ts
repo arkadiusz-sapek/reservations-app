@@ -16,6 +16,13 @@ export class CompaniesController {
         return await this.companiesService.getAll();
     }
 
+    @Get('client')
+    public async getForClient(@Headers('Authorization') auth: string) {
+        const { id } = await this.jwtUtil.decode(auth);
+
+        return await this.companiesService.getForClient(id);
+    }
+
     @Post()
     async create(@Body() company: CreateCompanyDto, @Headers('Authorization') auth: string) {
         const { id } = await this.jwtUtil.decode(auth);

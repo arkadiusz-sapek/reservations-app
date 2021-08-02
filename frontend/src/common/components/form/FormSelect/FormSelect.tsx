@@ -1,9 +1,9 @@
 import React from 'react';
 import { useFormContext, Controller, ControllerProps } from 'react-hook-form';
 
-import { SelectOption } from 'common/commonTypings';
 import { Select } from 'common/components/Select';
 import { FormFieldWrapper } from 'common/styled';
+import { SelectOption } from 'common/typings/selectTypings';
 
 interface Props extends Omit<ControllerProps, 'render'> {
     label: string;

@@ -14,6 +14,7 @@ import { Config } from '../config/config.model';
 import { TransientLoggerService } from '../logging/transient-logger.service';
 import { CompaniesModule } from 'src/companies/companies.module';
 import { ReservationsModule } from 'src/reservations/reservations.module';
+import { UtilsModule } from 'src/utils/utils.module';
 
 @Module({
     imports: [

@@ -6,24 +6,23 @@ import { routes } from 'settings/routes';
 import { useCompaniesServices } from './companiesServices';
 import * as S from './companiesPageStyles';
 import { CompanyForm } from './CompanyForm/CompanyForm';
-import { Company } from './companiesTypings';
 
 export const CompaniesPage = () => {
-    const [companyProfile, setCompanyProfile] = useState<Company>();
     const [isLoading, setIsLoading] = useState(false);
 
     const history = useHistory();
 
     const { getCompanyProfile } = useCompaniesServices();
-
+    console.log(
+        'hilasdfhjklsadhkjflhjkalsdfhkjlfdasjkhsadhfhjasdjklfhashdjflkjsdafhjklasdhfkljashflkjashkldjhfjkashdflk',
+    );
     useEffect(() => {
         setIsLoading(true);
         getCompanyProfile()
             .then(companyData => {
-                // if (companyData) {
-                //     setCompanyProfile(companyData);
-                //     history.push(routes.reservations);
-                // }
+                if (companyData) {
+                    // history.push(routes.reservations);
+                }
             })
             .finally(() => setIsLoading(false));
     }, []);

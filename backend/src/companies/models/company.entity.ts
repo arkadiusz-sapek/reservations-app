@@ -22,7 +22,7 @@ export class Company {
 
     @OneToOne(
         type => User,
-        user => user.companies,
+        user => user.company,
     )
     @JoinColumn({ name: 'userId' })
     user: User;

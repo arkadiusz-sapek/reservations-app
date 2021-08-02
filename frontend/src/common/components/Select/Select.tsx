@@ -1,7 +1,7 @@
+import { SelectOption, SelectValues } from 'common/typings/selectTypings';
 import React from 'react';
 import ReactSelect from 'react-select';
 
-import { SelectOption, SelectValues } from 'common/commonTypings';
 import { selectStyles } from './selectStyles';
 
 interface Props {

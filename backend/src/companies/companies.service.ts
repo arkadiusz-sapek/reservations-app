@@ -14,6 +14,10 @@ export class CompaniesService {
         return await this.companyRepo.find();
     }
 
+    public async getForClient(userId: string) {
+        return await this.companyRepo.find({ where: { user: userId } });
+    }
+
     public async create(company: CreateCompanyDto, userId: string) {
         const newCompany = this.companyRepo.create(
             this.transformCreateCompanyToModel(company, userId),

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { StylesConfig } from 'react-select';
 
 import { fontSize, palette } from 'settings/variables';
-import { SelectOption } from 'common/commonTypings';
+import { SelectOption } from 'common/typings/selectTypings';
 
 export const FormFieldWrapper = styled.div`
     width: 100%;

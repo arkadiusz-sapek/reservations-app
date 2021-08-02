@@ -22,7 +22,7 @@ export class User {
         type => Company,
         company => company.user,
     )
-    companies: Company[];
+    company: Company;
 
     @OneToMany(
         type => Reservation,
