@@ -8,7 +8,10 @@ import getDay from 'date-fns/getDay';
 import { AuthContext } from 'common/contexts/AuthContext';
 import { UserRole } from 'common/typings/authTypings';
 import { Modal } from 'common/components/Modal';
-import { Reservation } from 'features/Reservations/reservationsTypings';
+import {
+    ConsultantReservationFormValues,
+    Reservation,
+} from 'features/Reservations/reservationsTypings';
 import { ConsultantReservationForm } from '../ConsultantReservationForm';
 import { CompanyReservationForm } from '../CompanyReservationForm';
 
@@ -30,20 +33,31 @@ const localizer = dateFnsLocalizer({
 
 export const BigCalendar = ({ reservations }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [consultantFormInitialValues, setConsultantFormInitialValues] =
+        useState<Partial<ConsultantReservationFormValues>>();
 
     const {
         state: { user },
     } = useContext(AuthContext);
 
-    const handleSelect = (_slotInfo: SlotInfo) => {
+    const handleSelect = (slotInfo: SlotInfo) => {
+        setConsultantFormInitialValues({
+            date: format(new Date(slotInfo.start.toLocaleString()), 'yyyy-MM-dd'),
+            startTime: format(new Date(slotInfo.start.toLocaleString()), 'HH:mm'),
+            endTime: format(new Date(slotInfo.end.toLocaleString()), 'HH:mm'),
+        });
         setIsModalOpen(true);
     };
+
+    console.log(reservations);
 
     const events = reservations.map(({ startDate, endDate, ...rest }) => ({
         start: new Date(startDate),
         end: new Date(endDate),
         ...rest,
     }));
+
+    console.log(events);
 
     return (
         <>
@@ -62,7 +76,10 @@ export const BigCalendar = ({ reservations }: Props) => {
                 {user?.role === UserRole.Client ? (
                     <CompanyReservationForm setIsModalOpen={setIsModalOpen} />
                 ) : (
-                    <ConsultantReservationForm setIsModalOpen={setIsModalOpen} />
+                    <ConsultantReservationForm
+                        setIsModalOpen={setIsModalOpen}
+                        initialValues={consultantFormInitialValues}
+                    />
                 )}
             </Modal>
         </>

@@ -3,7 +3,9 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useHistory } from 'react-router-dom';
 
+import { routes } from 'settings/routes';
 import { Button } from 'common/styled';
 import { getRequired } from 'common/helpers/validationHelpers';
 import { FormTextInput } from 'common/components/form/FormTextInput';
@@ -24,8 +26,11 @@ interface Props {
 export const CompanyForm = ({ initialValues }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
 
+    const history = useHistory();
+
     const formControl = useForm<Company>({
         resolver: yupResolver(validationSchema),
+        defaultValues: initialValues,
     });
 
     const { createCompanyProfile } = useCompaniesServices();
@@ -33,8 +38,8 @@ export const CompanyForm = ({ initialValues }: Props) => {
     const onSubmit = (companyFormValues: CreateCompanyRequest) => {
         setIsLoading(true);
 
-        createCompanyProfile(companyFormValues).then(res => {
-            console.log(res);
+        createCompanyProfile(companyFormValues).then(() => {
+            history.push(routes.reservations);
         });
     };
 

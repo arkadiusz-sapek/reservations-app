@@ -1,41 +1,44 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
-import ClipLoader from 'react-spinners/ClipLoader';
-
+import { toast } from 'react-toastify';
+import { theme } from 'settings/variables';
 import { getRequired } from 'common/helpers/validationHelpers';
 import { FormTextInput } from 'common/components/form/FormTextInput';
-import { FormRangePicker } from 'common/components/form/FormDateTimePicker';
-import { AuthContext } from 'common/contexts/AuthContext';
+
 import { SelectOption } from 'common/typings/selectTypings';
 import { FormSelect } from 'common/components/form/FormSelect';
 import { Button } from 'common/styled';
 import { useCompaniesServices } from 'features/Companies/companiesServices';
-import { Reservation, ReservationFormValues } from 'features/Reservations/reservationsTypings';
+import {
+    ConsultantReservationFormValues,
+    ReservationFormValues,
+} from 'features/Reservations/reservationsTypings';
 import { useReservationServices } from 'features/Reservations/reservationsServices';
+import { LoadingButton } from 'common/components/LoadingButton/LoadingButton';
+import { FormActionsWrapper } from 'common/components/form/FormActionsWrapper';
 
 const validationSchema = Yup.object().shape({
     title: getRequired('Title'),
-    // dateRange: getRequired('Date range'),
-    // company: getRequired('Company'),
+    description: getRequired('Description'),
+    date: getRequired('Date'),
+    startTime: getRequired('Start time'),
+    endTime: getRequired('End time'),
 });
 
 interface Props {
-    initialValues?: Reservation;
+    initialValues?: Partial<ConsultantReservationFormValues>;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ConsultantReservationForm = ({ initialValues }: Props) => {
+export const ConsultantReservationForm = ({ initialValues, setIsModalOpen }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [companyOptions, setCompanyOptions] = useState<SelectOption[]>([]);
 
-    const {
-        state: { user },
-    } = useContext(AuthContext);
-
-    const formControl = useForm<Reservation>({
+    const formControl = useForm<ConsultantReservationFormValues>({
         resolver: yupResolver(validationSchema),
+        defaultValues: initialValues,
     });
 
     const { createReservationForConsultant } = useReservationServices();
@@ -60,7 +63,8 @@ export const ConsultantReservationForm = ({ initialValues }: Props) => {
 
         createReservationForConsultant(reservationFormValues)
             .then(() => {
-                console.log('elo');
+                toast.success('Created reservation');
+                setIsModalOpen(false);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -73,29 +77,22 @@ export const ConsultantReservationForm = ({ initialValues }: Props) => {
                 <form onSubmit={formControl.handleSubmit(onSubmit)}>
                     <FormTextInput name="title" label="Title" />
                     <FormTextInput name="description" label="Description" multiline rows={5} />
+                    <FormTextInput name="date" label="Date" type="date" />
 
-                    <div className="flex">
-                        <div className="mr-4">
-                            <FormTextInput name="startDate" label="Start date" type="date" />
-                        </div>
+                    <div className="flex gap-2">
                         <FormTextInput name="startTime" label="Start time" type="time" />
-                    </div>
-                    <div className="flex">
-                        <div className="mr-4">
-                            <FormTextInput name="endDate" label="End date" type="date" />
-                        </div>
                         <FormTextInput name="endTime" label="End time" type="time" />
                     </div>
-
                     <FormSelect name="company" label="Company" options={companyOptions} />
-                    <div className="flex justify-end mt-8 ">
-                        <Button color="primary" type="submit" data-testid="submitButton">
-                            Save
-                            <div className="inline-block ml-2 w-1">
-                                <ClipLoader size={15} color="white" loading={isLoading} />
-                            </div>
+                    <FormActionsWrapper>
+                        <Button
+                            backgroundColor={theme.palette.primary.dark}
+                            onClick={() => setIsModalOpen(false)}
+                        >
+                            Cancel
                         </Button>
-                    </div>
+                        <LoadingButton isLoading={isLoading}>Save</LoadingButton>
+                    </FormActionsWrapper>
                 </form>
             </FormProvider>
         </>

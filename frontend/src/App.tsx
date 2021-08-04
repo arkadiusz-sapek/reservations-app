@@ -23,17 +23,14 @@ export const App = () => (
                     <Switch>
                         <Route path={routes.loginPanel} component={LoginPage} />
                         <Route path={routes.registerPanel} component={RegisterPage} />
-
-                        <AuthGuard userRoles={[UserRole.Client, UserRole.Consultant]}>
-                            <MainWrapper>
+                        <MainWrapper>
+                            <AuthGuard userRoles={[UserRole.Client, UserRole.Consultant]}>
                                 <Route path={routes.reservations} component={ReservationsPage} />
-                            </MainWrapper>
-                        </AuthGuard>
-                        <AuthGuard userRoles={[UserRole.Client]}>
-                            <MainWrapper>
+                            </AuthGuard>
+                            <AuthGuard userRoles={[UserRole.Client]}>
                                 <Route path={routes.companyForm} component={CompaniesPage} />
-                            </MainWrapper>
-                        </AuthGuard>
+                            </AuthGuard>
+                        </MainWrapper>
                     </Switch>
                 </AuthContextProvider>
             </Router>

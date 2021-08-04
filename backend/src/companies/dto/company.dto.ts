@@ -17,5 +17,5 @@ export class CreateCompanyDto {
 }
 
 export class CompanyDto extends CreateCompanyDto {
-    id: string;
+    id: number;
 }

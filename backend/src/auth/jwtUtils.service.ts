@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 export class JwtUtilsService {
     constructor(private readonly jwtService: JwtService) {}
 
-    decode(auth: string): { id: string } {
+    decode(auth: string): { id: number } {
         if (typeof auth !== 'string') {
             throw new HttpException(
                 'Invalid token. User is not authenticated',
@@ -14,6 +14,6 @@ export class JwtUtilsService {
         }
         const jwt = auth.replace('Bearer ', '');
 
-        return this.jwtService.decode(jwt, { json: true }) as { id: string };
+        return this.jwtService.decode(jwt, { json: true }) as { id: number };
     }
 }

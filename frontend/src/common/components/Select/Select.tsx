@@ -11,6 +11,7 @@ interface Props {
     handleOptionsSelect: (selectedOptions: SelectValues) => void;
     isMulti?: boolean;
     noOptionMessage?: () => string;
+    defaultValue?: SelectValues;
 }
 
 export const Select = ({
@@ -18,10 +19,11 @@ export const Select = ({
     handleOptionsSelect,
     noOptionMessage,
     isMulti = false,
+    defaultValue,
     ...props
 }: Props) => (
     <ReactSelect
-        isMulti={isMulti}
+        isMulti={false}
         value={value}
         onChange={handleOptionsSelect}
         closeMenuOnSelect={!isMulti}

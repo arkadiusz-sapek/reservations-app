@@ -5,4 +5,4 @@ export interface SelectOption {
     value: string | number;
 }
 
-export type SelectValues = ValueType<SelectOption, boolean>;
+export type SelectValues = ValueType<SelectOption, false>;

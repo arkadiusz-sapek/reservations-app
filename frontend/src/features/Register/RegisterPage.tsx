@@ -4,25 +4,35 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
 
-import ClipLoader from 'react-spinners/ClipLoader';
 import { routes } from 'settings/routes';
 import { getRequired } from 'common/helpers/validationHelpers';
 import { AuthPanelWrapper } from 'common/components/AuthPanelWrapper';
-import { Button } from 'common/styled';
 import { FormTextInput } from 'common/components/form/FormTextInput';
 import { FormSelect } from 'common/components/form/FormSelect';
 import { UserRole } from 'common/typings/authTypings';
+import { FormActionsWrapper } from 'common/components/form/FormActionsWrapper';
+import { LoadingButton } from 'common/components/LoadingButton';
 import { useRegisterServices } from './registerServices';
 import { RegisterFormValues } from './typings';
 
+const roleOptions = [
+    {
+        label: 'Client',
+        value: UserRole.Client,
+    },
+    {
+        label: 'Consultant',
+        value: UserRole.Consultant,
+    },
+];
+
 const validationSchema = Yup.object().shape({
     email: getRequired('Email'),
-    // role: getRequired('Role'),
-    // password: getRequired('Password').min(8, 'Password should have at least 8 characters'),
-    // repeatedPassword: getRequired('Password repetition').oneOf(
-    //     [Yup.ref('newPassword'), null],
-    //     'Passwords are different',
-    // ),
+    password: getRequired('Password').min(8, 'Password should have at least 8 characters'),
+    passwordRepetition: getRequired('Password repetition').oneOf(
+        [Yup.ref('password'), null],
+        'Passwords are different',
+    ),
 });
 
 export const RegisterPage = (): JSX.Element => {
@@ -32,6 +42,9 @@ export const RegisterPage = (): JSX.Element => {
 
     const formControl = useForm<RegisterFormValues>({
         resolver: yupResolver(validationSchema),
+        defaultValues: {
+            role: roleOptions[0],
+        },
     });
 
     const onSubmit = (data: RegisterFormValues) => {
@@ -46,35 +59,22 @@ export const RegisterPage = (): JSX.Element => {
             <FormProvider {...formControl}>
                 <form onSubmit={formControl.handleSubmit(onSubmit)}>
                     <FormTextInput name="email" label="Email" />
-                    <FormSelect
-                        name="role"
-                        label="Role"
-                        options={[
-                            {
-                                label: 'Client',
-                                value: UserRole.Client,
-                            },
-                            {
-                                label: 'Consultant',
-                                value: UserRole.Consultant,
-                            },
-                        ]}
+                    <FormSelect name="role" label="Role" options={roleOptions} />
+                    <FormTextInput
+                        name="password"
+                        label="Password"
+                        type="password"
+                        autoComplete="new-password"
                     />
-                    <FormTextInput name="password" label="Password" type="password" />
                     <FormTextInput
                         name="passwordRepetition"
                         label="Password repetition"
                         type="password"
                     />
 
-                    <div className="flex justify-end mt-8 ">
-                        <Button color="primary" type="submit" data-testid="submitButton">
-                            Sign in
-                            <div className="inline-block ml-2 w-1">
-                                <ClipLoader size={15} color="white" loading={isLoading} />
-                            </div>
-                        </Button>
-                    </div>
+                    <FormActionsWrapper>
+                        <LoadingButton isLoading={isLoading}>Sign in</LoadingButton>
+                    </FormActionsWrapper>
                 </form>
             </FormProvider>
             <div className="mt-6">

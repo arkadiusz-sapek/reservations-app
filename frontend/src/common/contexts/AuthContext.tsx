@@ -8,6 +8,13 @@ export interface AuthState {
     user?: User;
     token?: string;
 }
+
+const cookieToken = Cookies.get(TOKEN_COOKIE_NAME);
+
+const initialState: AuthState = {
+    token: cookieToken,
+};
+
 type Action =
     | { type: 'SET_TOKEN'; payload: { token: string } }
     | { type: 'SET_USER_DATA'; payload: { user: User } }
@@ -59,16 +66,7 @@ interface Props {
 }
 
 const AuthContextProvider = ({ children, values }: Props): JSX.Element => {
-    const [state, dispatch] = useReducer(authReducer, values || {});
-
-    useEffect(() => {
-        const token = Cookies.get(TOKEN_COOKIE_NAME);
-
-        console.log(token);
-        if (token) {
-            dispatch(setToken(token));
-        }
-    }, []);
+    const [state, dispatch] = useReducer(authReducer, values || initialState);
 
     return <AuthContext.Provider value={{ state, dispatch }}>{children}</AuthContext.Provider>;
 };

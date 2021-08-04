@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
 import { TOKEN_COOKIE_NAME } from 'settings/variables';
 import { apiEndpoints } from 'settings/api';
 import { routes } from 'settings/routes';
 import { AuthContext, setToken } from 'common/contexts/AuthContext';
+import { handleErrors } from 'common/helpers/errorsHandler';
 import { httpClient } from 'common/services/httpClient';
 import { LoginPageFormValues, LoginRequest, LoginResponse } from './typings';
 
@@ -27,9 +27,7 @@ export const useLoginServices = () => {
                 Cookies.set(TOKEN_COOKIE_NAME, token);
                 history.push(routes.reservations);
             })
-            .catch(error => {
-                toast.error(error);
-            });
+            .catch(handleErrors);
     };
 
     return { login };

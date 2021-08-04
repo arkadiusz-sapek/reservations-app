@@ -40,5 +40,5 @@ export const AuthGuard = ({ userRoles, children }: Props) => {
         verifyUser();
     }, []);
 
-    return <>{children}</>;
+    return <>{isVerified && children}</>;
 };

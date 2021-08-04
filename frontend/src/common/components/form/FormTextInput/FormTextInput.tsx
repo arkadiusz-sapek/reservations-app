@@ -1,12 +1,13 @@
 import { useFormContext, Controller, ControllerProps } from 'react-hook-form';
 
-import { FormFieldWrapper, Input, Textarea } from 'common/styled';
+import { FormError, FormFieldWrapper, Input, Textarea } from 'common/styled';
 import React from 'react';
 
 interface Props extends Omit<ControllerProps, 'render'> {
     label: string;
     required?: boolean;
     type?: 'text' | 'password' | 'number' | 'time' | 'date';
+    autoComplete?: string;
     className?: string;
     multiline?: boolean;
     rows?: number;
@@ -20,6 +21,7 @@ export const FormTextInput = ({
     className,
     multiline,
     rows,
+    autoComplete,
     disabled = false,
     ...props
 }: Props): JSX.Element => {
@@ -44,6 +46,7 @@ export const FormTextInput = ({
                             type={type}
                             data-testid={`${props.name}Input`}
                             className={className}
+                            autoComplete={autoComplete}
                         />
                     ) : (
                         <Textarea
@@ -57,7 +60,7 @@ export const FormTextInput = ({
                         />
                     )}
 
-                    <span>{fieldErrors?.message}</span>
+                    <FormError>{fieldErrors?.message}</FormError>
                 </FormFieldWrapper>
             )}
             {...props}

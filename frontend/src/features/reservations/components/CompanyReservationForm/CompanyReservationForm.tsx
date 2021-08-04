@@ -3,10 +3,9 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Reservation, ReservationFormValues } from 'features/Reservations/reservationsTypings';
+import { ReservationFormValues } from 'features/Reservations/reservationsTypings';
 import { getRequired } from 'common/helpers/validationHelpers';
 import { FormTextInput } from 'common/components/form/FormTextInput';
-import { FormRangePicker } from 'common/components/form/FormDateTimePicker';
 import { useReservationServices } from 'features/Reservations/reservationsServices';
 import { UserRole } from 'common/typings/authTypings';
 
@@ -14,7 +13,9 @@ import { useUserServices } from 'core/services/userServices';
 import { FormSelect } from 'common/components/form/FormSelect';
 import { SelectOption } from 'common/typings/selectTypings';
 import { Button } from 'common/styled';
-import ClipLoader from 'react-spinners/ClipLoader';
+import { FormActionsWrapper } from 'common/components/form/FormActionsWrapper';
+import { theme } from 'settings/variables';
+import { LoadingButton } from 'common/components/LoadingButton';
 
 const validationSchema = Yup.object().shape({
     name: getRequired('Email'),
@@ -24,16 +25,17 @@ const validationSchema = Yup.object().shape({
 });
 
 interface Props {
-    initialValues?: Reservation;
+    initialValues?: ReservationFormValues;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CompanyReservationForm = ({ initialValues }: Props) => {
+export const CompanyReservationForm = ({ initialValues, setIsModalOpen }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [consultantOptions, setConsultantsOptions] = useState<SelectOption[]>([]);
 
     const formControl = useForm<ReservationFormValues>({
         resolver: yupResolver(validationSchema),
+        defaultValues: initialValues,
     });
 
     const { createReservationForConsultant } = useReservationServices();
@@ -58,7 +60,7 @@ export const CompanyReservationForm = ({ initialValues }: Props) => {
 
         createReservationForConsultant(reservationFormValues)
             .then(() => {
-                console.log('elo');
+                setIsModalOpen(false);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -70,16 +72,21 @@ export const CompanyReservationForm = ({ initialValues }: Props) => {
             <FormProvider {...formControl}>
                 <form onSubmit={formControl.handleSubmit(onSubmit)}>
                     <FormTextInput name="title" label="Title" />
-                    <FormRangePicker name="dateRange" />
-                    <FormSelect name="consultant" label="Consultant" options={consultantOptions} />
-                    <div className="flex justify-end mt-8 ">
-                        <Button color="primary" type="submit" data-testid="submitButton">
-                            Log in
-                            <div className="inline-block ml-2 w-1">
-                                <ClipLoader size={15} color="white" loading={isLoading} />
-                            </div>
-                        </Button>
+                    <FormTextInput name="date" label="Date" type="date" />
+                    <div className="flex gap-2">
+                        <FormTextInput name="startTime" label="Start time" type="time" />
+                        <FormTextInput name="endTime" label="End time" type="time" />
                     </div>
+                    <FormSelect name="consultant" label="Consultant" options={consultantOptions} />
+                    <FormActionsWrapper>
+                        <Button
+                            backgroundColor={theme.palette.primary.dark}
+                            onClick={() => setIsModalOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+                        <LoadingButton isLoading={isLoading}>Save</LoadingButton>
+                    </FormActionsWrapper>
                 </form>
             </FormProvider>
         </>

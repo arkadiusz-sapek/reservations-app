@@ -1,7 +1,11 @@
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-export const Button = styled.button`
+interface ButtonProps {
+    backgroundColor?: string;
+}
+
+export const Button = styled.button<ButtonProps>`
     border: none;
     background: transparent;
     font-size: ${({ theme }) => theme.fontSize.normal};
@@ -9,7 +13,8 @@ export const Button = styled.button`
     padding: 0.5rem 2rem;
     border-radius: 0.25rem;
     color: ${({ theme }) => theme.palette.primary.contrastText};
-    background-color: ${({ theme }) => theme.palette.primary.main};
+    background-color: ${({ theme, backgroundColor }) =>
+        backgroundColor || theme.palette.primary.main};
 `;
 
 const commonStyles = css`
@@ -34,6 +39,13 @@ export const Textarea = styled.textarea`
 
 export const FormFieldWrapper = styled.div`
     width: 100%;
-    margin: 0.5rem 0;
+    margin: 1rem 0;
     position: relative;
+`;
+
+export const FormError = styled.p`
+    width: 100%;
+    position: absolute;
+    font-size: ${({ theme }) => theme.fontSize.small};
+    color: ${({ theme }) => theme.palette.error.main};
 `;

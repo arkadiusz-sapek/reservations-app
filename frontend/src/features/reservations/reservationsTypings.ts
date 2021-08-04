@@ -6,8 +6,8 @@ export interface Reservation {
     description: string;
     startDate: string;
     endDate: string;
-    user: string;
-    company: string;
+    user: number;
+    company: number;
 }
 
 export type CreateReservationRequest = Omit<Reservation, 'id'>;
@@ -15,10 +15,18 @@ export type CreateReservationRequest = Omit<Reservation, 'id'>;
 export interface ReservationFormValues {
     title: string;
     description: string;
-    startDate: string;
-    startTime: string;
-    endDate: string;
+    date: string;
     endTime: string;
+    startTime: string;
+    company: SelectOption;
+}
+
+export interface ConsultantReservationFormValues {
+    title: string;
+    description: string;
+    date: string;
+    endTime: string;
+    startTime: string;
     company: SelectOption;
 }
 
@@ -28,12 +36,12 @@ export interface ReservationResponse {
     description: string;
     startDate: string;
     endDate: string;
-    user: string;
-    company: string;
+    user: number;
+    company: number;
 }
 
 export interface CalendarItem {
-    id: string;
+    id: number;
     title: string;
     start: Date;
     end: Date;

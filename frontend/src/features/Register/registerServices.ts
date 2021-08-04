@@ -1,9 +1,9 @@
 import { AuthContext, setToken } from 'common/contexts/AuthContext';
+import { handleErrors } from 'common/helpers/errorsHandler';
 import { httpClient } from 'common/services/httpClient';
 import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import { apiEndpoints } from 'settings/api';
 import { routes } from 'settings/routes';
@@ -14,7 +14,7 @@ export const useRegisterServices = () => {
     const history = useHistory();
     const { dispatch } = useContext(AuthContext);
 
-    const register = (formValues: RegisterFormValues): Promise<void> => {
+    const register = (formValues: RegisterFormValues) => {
         const createAccountRequest: RegisterRequest = {
             email: formValues.email,
             password: formValues.password,
@@ -28,9 +28,7 @@ export const useRegisterServices = () => {
                 Cookies.set(TOKEN_COOKIE_NAME, data.token);
                 history.push(routes.reservations);
             })
-            .catch(error => {
-                toast.error(error);
-            });
+            .catch(handleErrors);
     };
 
     return { register };

@@ -14,11 +14,11 @@ export class CompaniesService {
         return await this.companyRepo.find();
     }
 
-    public async getForClient(userId: string) {
-        return await this.companyRepo.find({ where: { user: userId } });
+    public async getForClient(userId: number) {
+        return await this.companyRepo.findOne({ where: { user: userId } });
     }
 
-    public async create(company: CreateCompanyDto, userId: string) {
+    public async create(company: CreateCompanyDto, userId: number) {
         const newCompany = this.companyRepo.create(
             this.transformCreateCompanyToModel(company, userId),
         );
@@ -27,7 +27,7 @@ export class CompaniesService {
         return newCompany;
     }
 
-    private transformCreateCompanyToModel(companyDto: CreateCompanyDto, userId: string): Company {
+    private transformCreateCompanyToModel(companyDto: CreateCompanyDto, userId: number): Company {
         const data = classToPlain({ ...companyDto, user: userId });
 
         return plainToClass(Company, data);

@@ -13,15 +13,13 @@ export const CompaniesPage = () => {
     const history = useHistory();
 
     const { getCompanyProfile } = useCompaniesServices();
-    console.log(
-        'hilasdfhjklsadhkjflhjkalsdfhkjlfdasjkhsadhfhjasdjklfhashdjflkjsdafhjklasdhfkljashflkjashkldjhfjkashdflk',
-    );
+
     useEffect(() => {
         setIsLoading(true);
         getCompanyProfile()
             .then(companyData => {
                 if (companyData) {
-                    // history.push(routes.reservations);
+                    history.push(routes.reservations);
                 }
             })
             .finally(() => setIsLoading(false));

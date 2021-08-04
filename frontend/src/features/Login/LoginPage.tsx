@@ -3,13 +3,13 @@ import * as Yup from 'yup';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from 'react-router-dom';
-import ClipLoader from 'react-spinners/ClipLoader';
 
 import { routes } from 'settings/routes';
+import { LoadingButton } from 'common/components/LoadingButton';
+import { FormActionsWrapper } from 'common/components/form/FormActionsWrapper';
 import { AuthPanelWrapper } from 'common/components/AuthPanelWrapper';
 import { FormTextInput } from 'common/components/form/FormTextInput';
 import { getRequired } from 'common/helpers/validationHelpers';
-import { Button } from 'common/styled';
 import { LoginPageFormValues } from './typings';
 import { useLoginServices } from './loginServices';
 
@@ -40,14 +40,9 @@ export const LoginPage = (): JSX.Element => {
                 <form onSubmit={formControl.handleSubmit(onSubmit)}>
                     <FormTextInput name="email" label="Email" />
                     <FormTextInput name="password" label="Password" type="password" />
-                    <div className="flex justify-end mt-8 ">
-                        <Button color="primary" type="submit" data-testid="submitButton">
-                            Log in
-                            <div className="inline-block ml-2 w-1">
-                                <ClipLoader size={15} color="white" loading={isLoading} />
-                            </div>
-                        </Button>
-                    </div>
+                    <FormActionsWrapper>
+                        <LoadingButton isLoading={isLoading}>Log in</LoadingButton>
+                    </FormActionsWrapper>
                 </form>
             </FormProvider>
             <div className="mt-6">

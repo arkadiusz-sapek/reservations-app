@@ -16,7 +16,7 @@ export class ReservationsService {
         return await this.reservationRepo.find();
     }
 
-    public async getForUser(userId: string) {
+    public async getForUser(userId: number) {
         return await this.reservationRepo.find({ where: { user: userId } });
     }
 

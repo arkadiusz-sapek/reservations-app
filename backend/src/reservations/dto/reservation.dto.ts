@@ -1,4 +1,4 @@
-import { IsISO8601, IsNotEmpty, IsString } from 'class-validator';
+import { IsISO8601, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateReservationDto {
     @IsNotEmpty()
@@ -16,14 +16,14 @@ export class CreateReservationDto {
     endDate: string;
 
     @IsNotEmpty()
-    @IsString()
+    @IsNumber()
     company: string;
 
     @IsNotEmpty()
-    @IsString()
+    @IsNumber()
     user: string;
 }
 
 export class ReservationDto extends CreateReservationDto {
-    id: string;
+    id: number;
 }

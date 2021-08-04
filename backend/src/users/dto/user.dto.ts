@@ -27,5 +27,5 @@ export class CreateUserDto {
     role: UserRole;
 }
 export class UserDto extends CreateUserDto {
-    id: string;
+    id: number;
 }
