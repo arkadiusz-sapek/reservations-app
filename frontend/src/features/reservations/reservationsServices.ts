@@ -7,7 +7,8 @@ import { handleErrors } from 'common/helpers/errorsHandler';
 import {
     CreateReservationRequest,
     Reservation,
-    ReservationFormValues,
+    ConsultantReservationFormValues,
+    CompanyReservationFormValues,
 } from './reservationsTypings';
 
 export const useReservationServices = () => {
@@ -18,13 +19,13 @@ export const useReservationServices = () => {
     const getReservations = (): Promise<Reservation[]> =>
         httpClient.get<Reservation[]>(apiEndpoints.reservations).then(({ data }) => data);
 
-    const transformFormValuesToRequest = ({
+    const transformFormValuesToClientRequest = ({
         date,
         startTime,
         endTime,
         company,
         ...formValues
-    }: ReservationFormValues): CreateReservationRequest => ({
+    }: ConsultantReservationFormValues): CreateReservationRequest => ({
         ...formValues,
         startDate: `${date} ${startTime}`,
         endDate: `${date} ${endTime}`,
@@ -32,8 +33,22 @@ export const useReservationServices = () => {
         company: parseInt(company.value.toString(), 10),
     });
 
-    const createReservationForConsultant = (reservation: ReservationFormValues) => {
-        const requestData = transformFormValuesToRequest(reservation);
+    const transformFormValuesToCompanyRequest = ({
+        date,
+        startTime,
+        endTime,
+        consultant,
+        ...formValues
+    }: CompanyReservationFormValues): CreateReservationRequest => ({
+        ...formValues,
+        startDate: `${date} ${startTime}`,
+        endDate: `${date} ${endTime}`,
+        user: user?.id || -1,
+        company: parseInt(consultant.value.toString(), 10),
+    });
+
+    const createReservationForConsultant = (reservation: ConsultantReservationFormValues) => {
+        const requestData = transformFormValuesToClientRequest(reservation);
 
         return httpClient
             .post<Reservation>(apiEndpoints.reservations, requestData)
@@ -41,5 +56,14 @@ export const useReservationServices = () => {
             .catch(handleErrors);
     };
 
-    return { getReservations, createReservationForConsultant };
+    const createReservationForCompany = (reservation: CompanyReservationFormValues) => {
+        const requestData = transformFormValuesToCompanyRequest(reservation);
+
+        return httpClient
+            .post<Reservation>(apiEndpoints.reservations, requestData)
+            .then(({ data }) => data)
+            .catch(handleErrors);
+    };
+
+    return { getReservations, createReservationForConsultant, createReservationForCompany };
 };

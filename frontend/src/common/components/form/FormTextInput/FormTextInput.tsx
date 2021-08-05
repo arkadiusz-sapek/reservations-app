@@ -12,6 +12,7 @@ interface Props extends Omit<ControllerProps, 'render'> {
     multiline?: boolean;
     rows?: number;
     disabled?: boolean;
+    placeholder?: string;
     children?: React.ReactNode;
 }
 
@@ -22,6 +23,7 @@ export const FormTextInput = ({
     multiline,
     rows,
     autoComplete,
+    placeholder,
     disabled = false,
     ...props
 }: Props): JSX.Element => {
@@ -47,6 +49,7 @@ export const FormTextInput = ({
                             data-testid={`${props.name}Input`}
                             className={className}
                             autoComplete={autoComplete}
+                            placeholder={placeholder}
                         />
                     ) : (
                         <Textarea
@@ -57,6 +60,7 @@ export const FormTextInput = ({
                             rows={rows}
                             data-testid={`${props.name}Textarea`}
                             className={className}
+                            placeholder={placeholder}
                         />
                     )}
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormContext, Controller, ControllerProps } from 'react-hook-form';
 
 import { Select } from 'common/components/Select';
-import { FormFieldWrapper } from 'common/styled';
+import { FormError, FormFieldWrapper } from 'common/styled';
 import { SelectOption } from 'common/typings/selectTypings';
 
 interface Props extends Omit<ControllerProps, 'render'> {
@@ -37,7 +37,7 @@ export const FormSelect = ({
                         value={value}
                         options={options}
                     />
-                    <span>{fieldErrors?.message}</span>
+                    <FormError>{fieldErrors?.message}</FormError>
                 </FormFieldWrapper>
             )}
             {...props}

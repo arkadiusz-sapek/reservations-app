@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { Calendar, Views, dateFnsLocalizer, SlotInfo } from 'react-big-calendar';
 import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
+import FullCalendar, { DateSelectArg, EventSourceInput } from '@fullcalendar/react'; // must go before plugins
+import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin!
+import interactionPlugin from '@fullcalendar/interaction'; // for selectable
 
 import { AuthContext } from 'common/contexts/AuthContext';
 import { UserRole } from 'common/typings/authTypings';
 import { Modal } from 'common/components/Modal';
 import {
-    ConsultantReservationFormValues,
     Reservation,
+    ReservationDateInitialValues,
 } from 'features/Reservations/reservationsTypings';
 import { ConsultantReservationForm } from '../ConsultantReservationForm';
 import { CompanyReservationForm } from '../CompanyReservationForm';
@@ -19,66 +18,52 @@ interface Props {
     reservations: Reservation[];
 }
 
-const locales = {
-    // eslint-disable-next-line global-require
-    'en-US': require('date-fns/locale/en-US'),
-};
-const localizer = dateFnsLocalizer({
-    format,
-    parse,
-    startOfWeek,
-    getDay,
-    locales,
-});
-
 export const BigCalendar = ({ reservations }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [consultantFormInitialValues, setConsultantFormInitialValues] =
-        useState<Partial<ConsultantReservationFormValues>>();
+    const [formInitialDateValues, setFormInitialDateValues] =
+        useState<ReservationDateInitialValues>();
 
     const {
         state: { user },
     } = useContext(AuthContext);
 
-    const handleSelect = (slotInfo: SlotInfo) => {
-        setConsultantFormInitialValues({
-            date: format(new Date(slotInfo.start.toLocaleString()), 'yyyy-MM-dd'),
-            startTime: format(new Date(slotInfo.start.toLocaleString()), 'HH:mm'),
-            endTime: format(new Date(slotInfo.end.toLocaleString()), 'HH:mm'),
+    const handleSelect = (slotInfo: DateSelectArg) => {
+        setFormInitialDateValues({
+            date: format(new Date(slotInfo.start), 'yyyy-MM-dd'),
+            startTime: format(new Date(slotInfo.start), 'HH:mm'),
+            endTime: format(new Date(slotInfo.end), 'HH:mm'),
         });
         setIsModalOpen(true);
     };
 
-    console.log(reservations);
-
-    const events = reservations.map(({ startDate, endDate, ...rest }) => ({
+    const events: EventSourceInput = reservations.map(({ startDate, endDate, title }) => ({
         start: new Date(startDate),
         end: new Date(endDate),
-        ...rest,
+        title,
     }));
-
-    console.log(events);
 
     return (
         <>
-            <Calendar
+            <FullCalendar
                 selectable
-                localizer={localizer}
                 events={events}
-                defaultView={Views.WEEK}
-                scrollToTime={new Date()}
-                defaultDate={new Date()}
-                onSelectEvent={(event: any) => alert(event.title)}
-                onSelectSlot={handleSelect}
-                views={[Views.WEEK]}
+                plugins={[timeGridPlugin, interactionPlugin]}
+                initialView="timeGridWeek"
+                eventClick={() => console.log('click')}
+                select={data => handleSelect(data)}
+
+                // dateClick={() => console.log('dateclick')}
             />
             <Modal isOpen={isModalOpen}>
                 {user?.role === UserRole.Client ? (
-                    <CompanyReservationForm setIsModalOpen={setIsModalOpen} />
+                    <CompanyReservationForm
+                        setIsModalOpen={setIsModalOpen}
+                        initialValues={formInitialDateValues}
+                    />
                 ) : (
                     <ConsultantReservationForm
                         setIsModalOpen={setIsModalOpen}
-                        initialValues={consultantFormInitialValues}
+                        initialValues={formInitialDateValues}
                     />
                 )}
             </Modal>

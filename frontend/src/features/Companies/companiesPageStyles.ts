@@ -7,14 +7,11 @@ export const ReservationsWrapper = styled.div`
     margin-top: 1rem;
 `;
 
-export const ReservationsPageWrapper = styled.main`
+export const CompaniesPageWrapper = styled.div`
     display: flex;
-    padding: 0.25rem;
-    height: 100vh;
-    width: 100vw;
-    box-sizing: border-box;
-
-    ${({ theme }) => theme.breakpoints.xl} {
-        padding: 0.25rem;
-    }
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    max-width: 20rem;
 `;

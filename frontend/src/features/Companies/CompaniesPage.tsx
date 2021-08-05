@@ -26,11 +26,11 @@ export const CompaniesPage = () => {
     }, []);
 
     return (
-        <S.ReservationsPageWrapper>
+        <S.CompaniesPageWrapper>
             <h2>Before you can use the application, you must create a company profile </h2>
 
             <ClipLoader size={60} color="white" loading={isLoading} />
             <CompanyForm />
-        </S.ReservationsPageWrapper>
+        </S.CompaniesPageWrapper>
     );
 };

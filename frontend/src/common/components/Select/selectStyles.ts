@@ -26,6 +26,7 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
         backgroundColor: palette.background.primary,
         padding: '0.55rem 0 0.55rem 2rem',
         transition: '0.5s',
+        zIndex: 100,
         '&:hover': {
             backgroundColor: palette.primary.light,
             color: palette.primary.contrastText,
@@ -37,11 +38,13 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
         color: palette.text.primary,
         backgroundColor: palette.background.primary,
         borderRadius: '0.25rem',
+        zIndex: 100,
     }),
     indicatorsContainer: provided => ({
         ...provided,
         borderRadius: '0.25rem',
         backgroundColor: palette.background.primary,
+        zIndex: 100,
     }),
     control: provided => ({
         ...provided,
@@ -49,6 +52,7 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
         fontSize: fontSize.normal,
         boxShadow: 'none',
         borderRadius: '0.25rem',
+        zIndex: 100,
 
         '&:hover': {
             border: controlBorder,
@@ -57,6 +61,7 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
     container: provided => ({
         ...provided,
         borderRadius: '0.25rem',
+        zIndex: 100,
     }),
     indicatorSeparator: provided => ({
         ...provided,
@@ -64,6 +69,7 @@ export const selectStyles: StylesConfig<SelectOption, false> = {
     }),
     multiValue: provided => ({
         ...provided,
+        zIndex: 100,
     }),
     noOptionsMessage: provided => ({
         ...provided,

@@ -12,21 +12,21 @@ export interface Reservation {
 
 export type CreateReservationRequest = Omit<Reservation, 'id'>;
 
-export interface ReservationFormValues {
-    title: string;
-    description: string;
+export interface ReservationDateInitialValues {
     date: string;
     endTime: string;
     startTime: string;
-    company: SelectOption;
 }
 
-export interface ConsultantReservationFormValues {
+export interface CompanyReservationFormValues extends ReservationDateInitialValues {
     title: string;
     description: string;
-    date: string;
-    endTime: string;
-    startTime: string;
+    consultant: SelectOption;
+}
+
+export interface ConsultantReservationFormValues extends ReservationDateInitialValues {
+    title: string;
+    description: string;
     company: SelectOption;
 }
 

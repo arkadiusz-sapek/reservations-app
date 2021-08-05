@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { ReservationFormValues } from 'features/Reservations/reservationsTypings';
+import { CompanyReservationFormValues } from 'features/Reservations/reservationsTypings';
 import { getRequired } from 'common/helpers/validationHelpers';
 import { FormTextInput } from 'common/components/form/FormTextInput';
 import { useReservationServices } from 'features/Reservations/reservationsServices';
@@ -16,16 +16,19 @@ import { Button } from 'common/styled';
 import { FormActionsWrapper } from 'common/components/form/FormActionsWrapper';
 import { theme } from 'settings/variables';
 import { LoadingButton } from 'common/components/LoadingButton';
+import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object().shape({
-    name: getRequired('Email'),
-    startDate: getRequired('Start'),
-    endDate: getRequired('End'),
-    consultant: getRequired('Consultant'),
+    title: getRequired('Title'),
+    description: getRequired('Description'),
+    date: getRequired('Date'),
+    startTime: getRequired('Start time'),
+    endTime: getRequired('End time'),
+    consultant: Yup.object().required(`Consultant is required`),
 });
 
 interface Props {
-    initialValues?: ReservationFormValues;
+    initialValues?: Partial<CompanyReservationFormValues>;
     setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -33,12 +36,12 @@ export const CompanyReservationForm = ({ initialValues, setIsModalOpen }: Props)
     const [isLoading, setIsLoading] = useState(false);
     const [consultantOptions, setConsultantsOptions] = useState<SelectOption[]>([]);
 
-    const formControl = useForm<ReservationFormValues>({
+    const formControl = useForm<CompanyReservationFormValues>({
         resolver: yupResolver(validationSchema),
         defaultValues: initialValues,
     });
 
-    const { createReservationForConsultant } = useReservationServices();
+    const { createReservationForCompany } = useReservationServices();
     const { getAllUsers } = useUserServices();
 
     const getConsultants = () => {
@@ -55,12 +58,13 @@ export const CompanyReservationForm = ({ initialValues, setIsModalOpen }: Props)
         getConsultants();
     }, []);
 
-    const onSubmit = (reservationFormValues: ReservationFormValues) => {
+    const onSubmit = (reservationFormValues: CompanyReservationFormValues) => {
         setIsLoading(true);
 
-        createReservationForConsultant(reservationFormValues)
+        createReservationForCompany(reservationFormValues)
             .then(() => {
                 setIsModalOpen(false);
+                toast.success('Created reservation');
             })
             .finally(() => {
                 setIsLoading(false);
@@ -72,6 +76,7 @@ export const CompanyReservationForm = ({ initialValues, setIsModalOpen }: Props)
             <FormProvider {...formControl}>
                 <form onSubmit={formControl.handleSubmit(onSubmit)}>
                     <FormTextInput name="title" label="Title" />
+                    <FormTextInput name="description" label="Description" multiline rows={5} />
                     <FormTextInput name="date" label="Date" type="date" />
                     <div className="flex gap-2">
                         <FormTextInput name="startTime" label="Start time" type="time" />
