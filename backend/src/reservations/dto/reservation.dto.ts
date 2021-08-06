@@ -17,11 +17,11 @@ export class CreateReservationDto {
 
     @IsNotEmpty()
     @IsNumber()
-    company: string;
+    company: number;
 
     @IsNotEmpty()
     @IsNumber()
-    user: string;
+    user: number;
 }
 
 export class ReservationDto extends CreateReservationDto {

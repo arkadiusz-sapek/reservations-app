@@ -1,8 +1,9 @@
-import { IsEnum } from 'class-validator';
+import { IsEnum, IsOptional } from 'class-validator';
 
 import { UserRole } from './user.dto';
 
 export class UserQueryDto {
     @IsEnum(UserRole)
-    role: UserRole;
+    @IsOptional()
+    role?: UserRole;
 }

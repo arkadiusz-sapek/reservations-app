@@ -10,5 +10,6 @@ import { AuthModule } from 'src/auth/auth.module';
     imports: [AuthModule, TypeOrmModule.forFeature([Reservation])],
     controllers: [ReservationsController],
     providers: [ReservationsService],
+    exports: [ReservationsService],
 })
 export class ReservationsModule {}

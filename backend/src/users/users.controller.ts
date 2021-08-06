@@ -1,6 +1,5 @@
 import { Controller, Get, Headers, Query } from '@nestjs/common';
 import { JwtUtilsService } from 'src/auth/jwtUtils.service';
-import { UserRole } from './dto/user.dto';
 import { UserQueryDto } from './dto/userQuery.dto';
 import { UsersService } from './users.service';
 
@@ -10,8 +9,7 @@ export class UsersController {
 
     @Get()
     public async getAll(@Query() queryParams: UserQueryDto) {
-        console.log(queryParams);
-        return await this.usersService.getAll(queryParams.role);
+        return await this.usersService.getAll(queryParams);
     }
 
     @Get('me')

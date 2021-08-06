@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    JoinColumn,
+    OneToMany,
+    OneToOne,
+    CreateDateColumn,
+} from 'typeorm';
 
 import { Reservation } from 'src/reservations/models/reservation.entity';
 import { User } from 'src/users/models/user.entity';
@@ -7,6 +15,9 @@ import { User } from 'src/users/models/user.entity';
 export class Company {
     @PrimaryGeneratedColumn()
     id: number;
+
+    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+    public createdAt: Date;
 
     @Column()
     name: string;
