@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import format from 'date-fns/format';
-import FullCalendar, { DateSelectArg, EventSourceInput } from '@fullcalendar/react'; // must go before plugins
-import timeGridPlugin from '@fullcalendar/timegrid'; // a plugin!
-import interactionPlugin from '@fullcalendar/interaction'; // for selectable
+import FullCalendar, { DateSelectArg, EventSourceInput } from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 import { AuthContext } from 'common/contexts/AuthContext';
 import { UserRole } from 'common/typings/authTypings';
@@ -13,6 +14,7 @@ import {
 } from 'features/Reservations/reservationsTypings';
 import { ConsultantReservationForm } from '../ConsultantReservationForm';
 import { CompanyReservationForm } from '../CompanyReservationForm';
+import * as S from '../../reservationsPageStyles';
 
 interface Props {
     reservations: Reservation[];
@@ -20,9 +22,11 @@ interface Props {
 
 export const BigCalendar = ({ reservations }: Props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dateRange, setDateRange] = useState({ start: '2020-08-01', end: '2020-08-07' });
+
     const [formInitialDateValues, setFormInitialDateValues] =
         useState<ReservationDateInitialValues>();
-
+    const ref: any = useRef(null);
     const {
         state: { user },
     } = useContext(AuthContext);
@@ -42,16 +46,38 @@ export const BigCalendar = ({ reservations }: Props) => {
         title,
     }));
 
+    const setDateRangeHandler = () => {
+        console.log('odpalam');
+        setTimeout(() => {
+            const calendarApi = ref.current.getApi();
+
+            console.log(calendarApi);
+            console.log(calendarApi.setOption);
+
+            // calendarApi.setOption?.('validRange', {
+            //     start: '2021-08-22T00:00:00+02:00',
+            //     end: '2021-08-28T00:00:00+02:00',
+            // });
+        }, 1000);
+    };
+
     return (
-        <>
+        <S.BigCalendarWrapper>
             <FullCalendar
+                ref={ref}
                 selectable
                 events={events}
-                plugins={[timeGridPlugin, interactionPlugin]}
-                initialView="timeGridWeek"
-                eventClick={() => console.log('click')}
-                select={data => handleSelect(data)}
-
+                plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
+                initialView="dayGridMonth"
+                eventClick={() => setDateRangeHandler()}
+                // select={data => handleSelect(data)}
+                select={data => setDateRangeHandler()}
+                visibleRange={dateRange}
+                // validRange={{ start: '2020-08-09', end: '2020-08-16' }}
+                datesSet={d => {
+                    // setDateRangeHandler();
+                    console.log(d);
+                }}
                 // dateClick={() => console.log('dateclick')}
             />
             <Modal isOpen={isModalOpen}>
@@ -67,6 +93,6 @@ export const BigCalendar = ({ reservations }: Props) => {
                     />
                 )}
             </Modal>
-        </>
+        </S.BigCalendarWrapper>
     );
 };

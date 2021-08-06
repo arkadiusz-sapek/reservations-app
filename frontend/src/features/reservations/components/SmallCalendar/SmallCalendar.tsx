@@ -1,26 +1,19 @@
-import React, { useState } from 'react';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
-import Calendar from 'react-calendar';
+import React, { useContext } from 'react';
 
-interface Props {}
+import Calendar from 'react-calendar';
+import { ReservationsContext, setDateRange } from 'common/contexts/ReservationsContext';
+import * as S from './smallCalendarStyles';
 
 export const SmallCalendar = () => {
-    const [value, onChange] = useState([new Date(), new Date('2021-08-26')]);
+    const { dispatch } = useContext(ReservationsContext);
 
-    const handleSelect = (val: any) => {
-        console.log('nowa rezerwacja');
-        console.log(val);
-        onChange(val);
-        console.log({ [val]: 'dupa' });
-        console.log(format(new Date(val), 'yyyy-MM-dd'));
+    const handleSelect = ([start, end]: Date[]) => {
+        dispatch(setDateRange({ start: start.toDateString(), end: end.toDateString() }));
     };
 
     return (
-        <>
-            <Calendar onChange={handleSelect} value={value} />
-        </>
+        <S.SmallCalendarWrapperWithStyles>
+            <Calendar className="h-96" onChange={handleSelect} selectRange />
+        </S.SmallCalendarWrapperWithStyles>
     );
 };

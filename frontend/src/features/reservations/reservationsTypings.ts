@@ -46,3 +46,8 @@ export interface CalendarItem {
     start: Date;
     end: Date;
 }
+
+export interface CalendarDateRange {
+    start: string;
+    end: string;
+}

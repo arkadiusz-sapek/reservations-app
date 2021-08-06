@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { useHistory } from 'react-router-dom';
 
-import { routes } from 'settings/routes';
-import { UserRole } from 'common/typings/authTypings';
 import { AuthContext } from 'common/contexts/AuthContext';
+import { ReservationsContextProvider } from 'common/contexts/ReservationsContext';
 import { useReservationServices } from './reservationsServices';
 import { BigCalendar } from './components/BigCalendar';
 import { Reservation } from './reservationsTypings';
+import { SmallCalendar } from './components/SmallCalendar';
 import * as S from './reservationsPageStyles';
 
 export const ReservationsPage = () => {
@@ -43,11 +43,16 @@ export const ReservationsPage = () => {
     }, []);
 
     return (
-        <>
-            <div className="w-full">
-                <BigCalendar reservations={reservations} />
+        <ReservationsContextProvider>
+            <div className="flex">
+                <S.DrawerWrapper className="w-80">
+                    <SmallCalendar />
+                </S.DrawerWrapper>
+                <div className="w-full p-5">
+                    <BigCalendar reservations={reservations} />
+                </div>
+                <ClipLoader size={60} color="white" loading={isLoading} />
             </div>
-            <ClipLoader size={60} color="white" loading={isLoading} />
-        </>
+        </ReservationsContextProvider>
     );
 };
