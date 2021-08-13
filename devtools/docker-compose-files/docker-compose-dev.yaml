@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: reservations-app-frontend-dev
+    build:
+      context: .
+      dockerfile: ./devtools/dockerfiles/frontend/Dockerfile.dev
+    volumes:
+      - "./frontend:/app"
+      - "/app/node_modules"
+    ports:
+      - 3000:3000
+    stdin_open: true
+    command: ["yarn", "start"]
+    depends_on:
+      - backend
+
+  backend:
+    container_name: reservations-app-backend-dev
+    build:
+      dockerfile: ./devtools/dockerfiles/backend/Dockerfile.dev
+      context: .
+
+    volumes:
+      - "./backend:/app"
+      - "/app/node_modules"
+
+    command: ["yarn", "start"]
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+  db:
+    image: postgres:12.0-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
+
+volumes:
+  postgres_data:

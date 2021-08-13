@@ -1,0 +1,6 @@
+docker@run-services:
+	docker-compose -p reservations-app --project-directory ./ \
+	-f $(_DOCKER_COMPOSE_FILES)/docker-compose-dev.yaml build
+
+	docker-compose -p reservations-app --project-directory ./ \
+	-f $(_DOCKER_COMPOSE_FILES)/docker-compose-dev.yaml up -d
