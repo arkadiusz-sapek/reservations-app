@@ -1,10 +1,10 @@
 name: reservations-app
 
 on:
-  push:
-    branches: [develop]
   pull_request:
-    branches: [develop]
+    branches: [dev]
+
+  workflow_dispatch:
 
 jobs:
   build:
