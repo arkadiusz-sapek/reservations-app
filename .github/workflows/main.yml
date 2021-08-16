@@ -1,48 +1,37 @@
-name: reservations-app
+name: Deploy to production
 
 on:
-  pull_request:
-    branches: [dev]
-
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
+    name: Build image
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-
     steps:
-      - name: Checkout repository
+      - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        working-directory: ./frontend
-        run: yarn
-
-  continuous-deployment:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: eu-central-1
 
-      - name: Create CodeDeploy Deployment
-        id: deploy
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Load secrets and save to app.env
+        run: aws secretsmanager get-secret-value --secret-id simple_bank --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > app.env
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: reservations-app
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          aws deploy create-deployment \
-            --application-name Reservations-app \
-            --deployment-group-name deployment_group_reservations_app \
-            --deployment-config-name CodeDeployDefault.OneAtATime \
-            --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+          docker build -f devtools/dockerfiles/frontend/Dockerfile.dev -t reservations-app:latest .
+          docker tag reservations-app:latest 429572539595.dkr.ecr.eu-central-1.amazonaws.com/reservations-app:latest
+          docker push 429572539595.dkr.ecr.eu-central-1.amazonaws.com/reservations-app:latest

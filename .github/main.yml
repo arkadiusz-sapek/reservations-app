@@ -1,0 +1,48 @@
+name: reservations-app
+
+on:
+  pull_request:
+    branches: [dev]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: yarn
+
+  # continuous-deployment:
+  #   runs-on: ubuntu-latest
+  #   needs: [build]
+  #   steps:
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: ${{ secrets.AWS_REGION }}
+
+  #     - name: Create CodeDeploy Deployment
+  #       id: deploy
+  #       run: |
+  #         aws deploy create-deployment \
+  #           --application-name Reservations-app \
+  #           --deployment-group-name deployment_group_reservations_app \
+  #           --deployment-config-name CodeDeployDefault.OneAtATime \
+  #           --github-location repository=${{ github.repository }},commitId=${{ github.sha }}

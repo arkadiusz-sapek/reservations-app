@@ -1,2 +1,1 @@
- cd /home/ec2-user/reservations-app
- make docker@run-services
+ cd /home/ec2-user/reservations-app/frontend
